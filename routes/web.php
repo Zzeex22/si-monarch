@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DirekturController;
 use App\Http\Controllers\KontrakController;
+use App\Http\Controllers\ProyekController;
 
 // Rute Utama yang Lebih Pintar
 Route::get('/', function () {
@@ -45,3 +46,7 @@ Route::middleware('auth')->group(function () {
         return 'Halaman Komisaris Belum Dibuat Lek';
     });
 });
+
+Route::get('/direktur/proyek', [ProyekController::class, 'index'])->name('proyek.index');
+Route::get('/direktur/proyek/tambah', [ProyekController::class, 'create'])->name('proyek.create');
+Route::post('/direktur/proyek/store', [ProyekController::class, 'store'])->name('proyek.store');

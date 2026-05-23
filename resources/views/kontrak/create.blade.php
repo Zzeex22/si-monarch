@@ -6,7 +6,7 @@
     <title>Buat Kontrak | Si-MONARCH</title>
     <link rel="stylesheet" href="{{ asset('css/kontrak.css') }}">
     <style>
-        /* Tambahan CSS Khusus Form Buat Kontrak */
+  
         .form-container { background-color: #353646; border-radius: 8px; padding: 30px; margin-bottom: 30px; }
         .section-title { color: #4299e1; border-bottom: 1px solid #4a4b5c; padding-bottom: 10px; margin-bottom: 20px; margin-top: 30px; font-size: 16px; }
         .form-group { margin-bottom: 15px; }
@@ -17,7 +17,7 @@
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
         
-        /* Baris Dinamis Pasal 2 */
+
         .dynamic-row { background-color: #282936; padding: 15px; border-radius: 5px; margin-bottom: 10px; border: 1px dashed #4a4b5c; position: relative; }
         .btn-add { background-color: #22c55e; color: white; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer; font-size: 13px; margin-top: 10px; }
         .btn-remove { position: absolute; top: 10px; right: 10px; background-color: #ef4444; color: white; border: none; padding: 3px 8px; border-radius: 3px; cursor: pointer; font-size: 11px; }

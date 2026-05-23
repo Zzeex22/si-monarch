@@ -11,8 +11,8 @@
     <div class="sidebar">
         <h2>Si-MONARCH</h2>
         <a href="{{ url('/direktur/dashboard') }}">Dashboard</a>
-        <a href="#">Proyek</a>
-        <a href="#">Dokumen</a>
+        <a href="{{ url('/direktur/proyek') }}">Proyek</a>
+        <a href="{{ url('/direktur/dokumen') }}">Dokumen</a>
         <a href="{{ url('/direktur/kontrak') }}" class="active">Kontrak</a>
     </div>
 
@@ -68,9 +68,9 @@
                         <td>{{ $kontrak->klien->nama_instansi ?? '-' }}</td>
                         
                         <td>
-                            <button class="btn-action btn-download" title="Unduh">📥</button>
-                            <button class="btn-action btn-view" title="Lihat">👁️</button>
-                            <button class="btn-action btn-delete" title="Hapus">🗑️</button>
+                            <button class="btn-action btn-download" title="Unduh"></button>
+                            <button class="btn-action btn-view" title="Lihat"></button>
+                            <button class="btn-action btn-delete" title="Hapus"></button>
                         </td>
                     </tr>
                     @empty
