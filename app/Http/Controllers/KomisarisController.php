@@ -66,7 +66,6 @@ class KomisarisController extends Controller
     // ==========================================
     public function kontrak()
     {
-        // Ambil semua data kontrak beserta info kliennya
         $kontrakList = Kontrak::with('klien')->orderBy('id', 'desc')->get();
         return view('komisaris.kontrak', compact('kontrakList'));
     }

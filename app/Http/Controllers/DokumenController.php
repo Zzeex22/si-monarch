@@ -55,7 +55,7 @@ class DokumenController extends Controller
                 'tgl_upload' => date('Y-m-d'),
             ]);
 
-            return redirect()->route('dokumen.index')->with('success', 'Dokumen berhasil diunggah lek!');
+            return redirect()->route('dokumen.index')->with('success', 'Dokumen berhasil diunggah!');
         }
 
         return back()->with('error', 'Gagal mengunggah dokumen.');
@@ -70,7 +70,7 @@ class DokumenController extends Controller
         if (File::exists($filePath)) {
             return response()->file($filePath);
         }
-        return back()->with('error', 'File fisik tidak ditemukan di server lek!');
+        return back()->with('error', 'File fisik tidak ditemukan di server ');
     }
 
 
@@ -82,7 +82,7 @@ class DokumenController extends Controller
         if (File::exists($filePath)) {
             return response()->download($filePath);
         }
-        return back()->with('error', 'File fisik tidak ditemukan di server lek!');
+        return back()->with('error', 'File fisik tidak ditemukan di server ');
     }
 
 

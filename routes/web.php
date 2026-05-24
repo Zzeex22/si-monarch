@@ -24,9 +24,8 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     
-    // ==========================================
+
     // RUTE DIREKTUR
-    // ==========================================
     Route::get('/direktur/dashboard', [DirekturController::class, 'dashboard']);
     
     // Kontrak
@@ -55,9 +54,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/direktur/dokumen/download/{id}', [DokumenController::class, 'download'])->name('dokumen.download');
     Route::delete('/direktur/dokumen/{id}', [DokumenController::class, 'destroy'])->name('dokumen.destroy');
 
-    // ==========================================
+
     // RUTE KOMISARIS
-    // ==========================================
     Route::get('/komisaris/dashboard', [KomisarisController::class, 'dashboard'])->name('komisaris.dashboard');
     Route::get('/komisaris/proyek', [KomisarisController::class, 'proyek'])->name('komisaris.proyek');
     Route::get('/komisaris/proyek/{id}', [KomisarisController::class, 'showProyek'])->name('komisaris.proyek.show');
@@ -65,7 +63,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/komisaris/dokumen/view/{id}', [KomisarisController::class, 'viewDokumen'])->name('komisaris.dokumen.view');
     Route::get('/komisaris/dokumen/download/{id}', [KomisarisController::class, 'downloadDokumen'])->name('komisaris.dokumen.download');
 
-    // --- RUTE DAFTAR KONTRAK KOMISARIS ---
+    // RUTE DAFTAR KONTRAK KOMISARIS 
     Route::get('/komisaris/kontrak', [KomisarisController::class, 'kontrak'])->name('komisaris.kontrak');
     Route::get('/komisaris/kontrak/view/{id}', [KomisarisController::class, 'viewKontrak'])->name('komisaris.kontrak.view');
     Route::get('/komisaris/kontrak/download/{id}', [KomisarisController::class, 'downloadKontrak'])->name('komisaris.kontrak.download');

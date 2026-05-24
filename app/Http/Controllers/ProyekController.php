@@ -40,7 +40,7 @@ class ProyekController extends Controller
             'progres' => 0,
         ]);
 
-        return redirect()->route('proyek.index')->with('success', 'Proyek berhasil ditambahkan lek!');
+        return redirect()->route('proyek.index')->with('success', 'Proyek berhasil ditambahkan');
     }
 
     public function show($id)
@@ -72,7 +72,7 @@ class ProyekController extends Controller
             'anggaran' => $request->anggaran ?? 0,
         ]);
 
-        return redirect()->route('proyek.show', $id)->with('success', 'Data informasi proyek berhasil diperbarui lek!');
+        return redirect()->route('proyek.show', $id)->with('success', 'Data informasi proyek berhasil diperbarui ');
     }
 
 
