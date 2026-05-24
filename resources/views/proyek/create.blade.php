@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tambah Proyek | Si-MONARCH</title>
-    <link rel="stylesheet" href="{{ asset('css/kontrak.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/proyek.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 <body>
 
@@ -100,11 +99,11 @@
             const selectKontrak = document.getElementById('kontrak_id');
             const selectedOption = selectKontrak.options[selectKontrak.selectedIndex];
             
-            // Ambil data klien dari atribut option yang dipilih
+
             const namaKlien = selectedOption.getAttribute('data-klien') || '';
             const namaPic = selectedOption.getAttribute('data-pic') || '';
             
-            // Masukkan nilai ke dalam input field kolom kanan
+
             document.getElementById('klien_input').value = namaKlien;
             document.getElementById('pic_input').value = namaPic;
         }

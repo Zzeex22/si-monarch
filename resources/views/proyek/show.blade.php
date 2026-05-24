@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detail Proyek | Si-MONARCH</title>
-    <link rel="stylesheet" href="{{ asset('css/kontrak.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <style>
         .detail-box { background-color: #282936; border: 1px solid #4a4b5c; padding: 15px; border-radius: 5px; margin-bottom: 15px; }
         .detail-label { color: #a0aec0; font-size: 12px; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }

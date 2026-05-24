@@ -20,13 +20,13 @@ class Kontrak extends Model
         'status_kontrak'
     ];
 
-    // Relasi ke tabel Proyek
+
     public function proyek()
     {
         return $this->hasOne(Proyek::class, 'kontrak_id', 'id');
     }
 
-    // Relasi ke tabel Klien
+
     public function klien()
     {
         return $this->belongsTo(Klien::class, 'klien_id', 'id');

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Klien extends Model
 {
-    protected $table = 'klien'; // Sesuaikan kalau namanya beda
+    protected $table = 'klien'; 
     public $timestamps = false;
 
     protected $fillable = [

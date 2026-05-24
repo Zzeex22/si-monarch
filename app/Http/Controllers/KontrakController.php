@@ -63,21 +63,16 @@ class KontrakController extends Controller
 
         $pdf = Pdf::loadView('kontrak.pdf', $data)->setPaper('A4', 'portrait');
 
-        // Simpan fisik file PDF ke folder public/dokumen/
         $path = public_path('dokumen');
         if (!File::exists($path)) {
             File::makeDirectory($path, 0777, true, true);
         }
-        $pdf->save($path . '/' . $namaFile); // Simpan ke server
+        $pdf->save($path . '/' . $namaFile); 
 
-        return $pdf->download($namaFile); // Download ke browser user
+        return $pdf->download($namaFile); 
     }
 
-    // ==========================================
-    // FUNGSI UNTUK TOMBOL AKSI
-    // ==========================================
 
-    // 1. Fungsi Lihat PDF (View)
     public function view($id)
     {
         $dokumen = Dokumen::where('kontrak_id', $id)->first();
@@ -87,7 +82,7 @@ class KontrakController extends Controller
         return back()->with('error', 'File PDF belum tersimpan di server lek!');
     }
 
-    // 2. Fungsi Unduh PDF (Download)
+
     public function download($id)
     {
         $dokumen = Dokumen::where('kontrak_id', $id)->first();
@@ -97,12 +92,12 @@ class KontrakController extends Controller
         return back()->with('error', 'File PDF belum tersimpan di server lek!');
     }
 
-    // 3. Fungsi Hapus Kontrak (Delete)
+
     public function destroy($id)
     {
         $kontrak = Kontrak::findOrFail($id);
         
-        // Hapus fisik file dan data dokumennya sekalian
+
         $dokumen = Dokumen::where('kontrak_id', $id)->first();
         if ($dokumen) {
             $filePath = public_path('dokumen/' . $dokumen->nama_file);
@@ -112,13 +107,13 @@ class KontrakController extends Controller
             $dokumen->delete();
         }
 
-        // Hapus kontraknya
+
         $kontrak->delete();
 
         return back()->with('success', 'Kontrak beserta file PDF-nya berhasil dihapus!');
     }
 
-    // --- HELPER FUNCTIONS ---
+
     private function formatTanggalIndo($tanggal) {
         $bulan = ['01'=>'Januari','02'=>'Februari','03'=>'Maret','04'=>'April','05'=>'Mei','06'=>'Juni','07'=>'Juli','08'=>'Agustus','09'=>'September','10'=>'Oktober','11'=>'November','12'=>'Desember'];
         $hari = ['Sun'=>'Minggu','Mon'=>'Senin','Tue'=>'Selasa','Wed'=>'Rabu','Thu'=>'Kamis','Fri'=>'Jumat','Sat'=>'Sabtu'];

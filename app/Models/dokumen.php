@@ -18,7 +18,7 @@ class Dokumen extends Model
         'tgl_upload'
     ];
 
-    // Relasi balik ke Proyek
+
     public function proyek()
     {
         return $this->belongsTo(Proyek::class, 'proyek_id', 'id');
