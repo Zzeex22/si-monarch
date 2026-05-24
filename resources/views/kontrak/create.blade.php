@@ -12,7 +12,7 @@
         <h2>Si-MONARCH</h2>
         <a href="{{ url('/direktur/dashboard') }}">Dashboard</a>
         <a href="{{ route('proyek.index') }}">Proyek</a>
-        <a href="#">Dokumen</a>
+        <a href="{{ route('dokumen.index') }}">Dokumen</a>
         <a href="{{ route('kontrak.index') }}" class="active">Kontrak</a>
     </div>
 

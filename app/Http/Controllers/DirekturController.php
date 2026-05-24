@@ -14,20 +14,12 @@ class DirekturController extends Controller
     {
 
         $totalProyek = Proyek::count();
-        
-
-        $kontrakAktif = Kontrak::where('status_kontrak', 'Aktif')->count(); 
-        
-        $totalDokumen = Dokumen::count();
+        $kontrakAktif = Kontrak::where('status_kontrak', 'Aktif')->count();
+        $arsipDokumen = Dokumen::count();
 
 
-        $proyekList = Proyek::limit(4)->get();
+        $proyekTerbaru = Proyek::orderBy('id', 'desc')->take(5)->get();
 
-        return view('direktur.dashboard', compact(
-            'totalProyek', 
-            'kontrakAktif', 
-            'totalDokumen', 
-            'proyekList'
-        ));
+        return view('direktur.dashboard', compact('totalProyek', 'kontrakAktif', 'arsipDokumen', 'proyekTerbaru'));
     }
 }

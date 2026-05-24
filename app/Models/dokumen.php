@@ -7,16 +7,24 @@ use Illuminate\Database\Eloquent\Model;
 class Dokumen extends Model
 {
     protected $table = 'dokumen';
+
+
     public $timestamps = false;
 
     protected $fillable = [
-        'proyek_id',
-        'kontrak_id',
-        'nama_file',
-        'jenis_dokumen',
-        'keterangan',
+        'kontrak_id', 
+        'proyek_id', 
+        'nama_file', 
+        'jenis_dokumen', 
+        'keterangan', 
         'tgl_upload'
     ];
+
+ 
+    public function kontrak()
+    {
+        return $this->belongsTo(Kontrak::class, 'kontrak_id', 'id');
+    }
 
 
     public function proyek()

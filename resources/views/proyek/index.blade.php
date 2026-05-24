@@ -12,7 +12,7 @@
         <h2>Si-MONARCH</h2>
         <a href="{{ url('/direktur/dashboard') }}">Dashboard</a>
         <a href="{{ route('proyek.index') }}" class="active">Proyek</a>
-        <a href="#">Dokumen</a>
+        <a href="{{ route('dokumen.index') }}">Dokumen</a>
         <a href="{{ route('kontrak.index') }}">Kontrak</a>
     </div>
 
@@ -30,13 +30,12 @@
 
         <div class="action-bar">
             <a href="{{ route('proyek.create') }}" class="btn-primary">+ Tambah Proyek</a>
-            <input type="text" class="search-box" placeholder="🔍 Cari proyek...">
+            <input type="text" id="searchProyek" class="search-box" placeholder=" Cari nama proyek, klien, atau status...">
         </div>
 
         <div class="table-container">
             <h3>Tabel Proyek <br><small style="color:#888; font-size: 12px;">Daftar Proyek Utama</small></h3>
             <table>
-                <table>
                 <thead>
                     <tr>
                         <th style="text-align: left;">Nama Proyek</th>
@@ -44,11 +43,12 @@
                         <th>Deadline</th>
                         <th>Status</th>
                         <th>Progres</th>
-                        <th>Aksi</th> </tr>
+                        <th>Aksi</th>
+                    </tr>
                 </thead>
-                <tbody>
+                <tbody id="tableBodyProyek">
                     @forelse($proyekList as $p)
-                    <tr>
+                    <tr class="data-row">
                         <td style="text-align: left;">{{ $p->nama_proyek }}</td>
                         <td>{{ $p->klien }}</td>
                         <td>{{ \Carbon\Carbon::parse($p->deadline)->format('d/m/Y') }}</td>
@@ -62,19 +62,36 @@
                             </div>
                         </td>
                         <td>
-                            <a href="{{ route('proyek.show', $p->id) }}" class="btn-action btn-view" style="text-decoration: none;" title="Lihat Detail Proyek">👁️</a>
+                            <a href="{{ route('proyek.show', $p->id) }}" class="btn-action btn-view" style="text-decoration: none;" title="Lihat Detail Proyek">
+                                <img src="{{ asset('icons/mata.png') }}" style="width: 20px; height: 20px;" alt="View">
+                            </a>
                         </td>
                     </tr>
                     @empty
-                    <tr>
+                    <tr id="emptyRow">
                         <td colspan="6" style="text-align: center;">Belum ada proyek lek, silakan tambah proyek baru.</td>
                     </tr>
                     @endforelse
                 </tbody>
             </table>
-            </table>
         </div>
     </div>
+
+    <script>
+        document.getElementById('searchProyek').addEventListener('keyup', function() {
+            let filter = this.value.toLowerCase();
+            let rows = document.querySelectorAll('#tableBodyProyek .data-row');
+            
+            rows.forEach(row => {
+                let text = row.textContent.toLowerCase();
+                if(text.includes(filter)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    </script>
 
 </body>
 </html>

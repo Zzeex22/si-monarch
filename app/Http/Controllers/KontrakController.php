@@ -79,7 +79,7 @@ class KontrakController extends Controller
         if ($dokumen && File::exists(public_path('dokumen/' . $dokumen->nama_file))) {
             return response()->file(public_path('dokumen/' . $dokumen->nama_file));
         }
-        return back()->with('error', 'File PDF belum tersimpan di server lek!');
+        return back()->with('error', 'File PDF belum tersimpan di server');
     }
 
 
@@ -89,7 +89,7 @@ class KontrakController extends Controller
         if ($dokumen && File::exists(public_path('dokumen/' . $dokumen->nama_file))) {
             return response()->download(public_path('dokumen/' . $dokumen->nama_file));
         }
-        return back()->with('error', 'File PDF belum tersimpan di server lek!');
+        return back()->with('error', 'File PDF belum tersimpan di server');
     }
 
 
