@@ -50,3 +50,17 @@ Route::middleware('auth')->group(function () {
 Route::get('/direktur/proyek', [ProyekController::class, 'index'])->name('proyek.index');
 Route::get('/direktur/proyek/tambah', [ProyekController::class, 'create'])->name('proyek.create');
 Route::post('/direktur/proyek/store', [ProyekController::class, 'store'])->name('proyek.store');
+
+Route::get('/direktur/kontrak/buat', [KontrakController::class, 'create'])->name('kontrak.create');
+Route::post('/direktur/kontrak/generate', [KontrakController::class, 'generatePdf'])->name('kontrak.generate');
+    
+  
+Route::get('/direktur/kontrak/view/{id}', [KontrakController::class, 'view'])->name('kontrak.view');
+Route::get('/direktur/kontrak/download/{id}', [KontrakController::class, 'download'])->name('kontrak.download');
+Route::delete('/direktur/kontrak/{id}', [KontrakController::class, 'destroy'])->name('kontrak.destroy');
+
+Route::get('/direktur/proyek', [ProyekController::class, 'index'])->name('proyek.index');
+Route::get('/direktur/proyek/tambah', [ProyekController::class, 'create'])->name('proyek.create');
+Route::post('/direktur/proyek/store', [ProyekController::class, 'store'])->name('proyek.store');
+
+Route::get('/direktur/proyek/{id}', [ProyekController::class, 'show'])->name('proyek.show');

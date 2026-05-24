@@ -1,0 +1,78 @@
+/* public/css/proyek.css */
+
+.form-container { 
+    background-color: #353646; 
+    border-radius: 8px; 
+    padding: 30px; 
+    margin-bottom: 30px; 
+}
+.form-group { 
+    margin-bottom: 20px; 
+}
+.form-group label { 
+    display: block; 
+    margin-bottom: 8px; 
+    color: #cbd5e0; 
+    font-size: 13px; 
+}
+.form-group input, 
+.form-group textarea, 
+.form-group select { 
+    width: 100%; 
+    padding: 12px; 
+    background-color: #282936; 
+    border: 1px solid #4a4b5c; 
+    color: #fff; 
+    border-radius: 5px; 
+    box-sizing: border-box; 
+    outline: none; 
+    font-family: inherit;
+}
+.form-group input:focus, 
+.form-group textarea:focus, 
+.form-group select:focus { 
+    border-color: #4299e1; 
+}
+.form-group input[readonly] { 
+    background-color: #1e1f29; 
+    color: #a0aec0; 
+    cursor: not-allowed; 
+    border-color: #2d3748; 
+}
+.grid-2 { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 25px; 
+}
+
+/* Tombol Aksi di Form */
+.btn-group { 
+    margin-top: 20px; 
+    text-align: right; 
+}
+.btn-submit { 
+    background-color: #0ea5e9; 
+    color: white; 
+    padding: 12px 25px; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    font-weight: bold; 
+}
+.btn-submit:hover { 
+    background-color: #0284c7; 
+}
+.btn-cancel { 
+    background-color: #4a4b5c; 
+    color: white; 
+    padding: 12px 25px; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    font-weight: bold; 
+    text-decoration: none; 
+    margin-right: 10px;
+}
+.btn-cancel:hover { 
+    background-color: #3e3e53; 
+}

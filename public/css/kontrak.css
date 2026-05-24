@@ -33,3 +33,117 @@ td:first-child, th:first-child { text-align: left; }
 .btn-download { background-color: #0ea5e9; }
 .btn-view { background-color: #22c55e; }
 .btn-delete { background-color: #ef4444; }
+
+/* public/css/create-kontrak.css */
+
+.form-container { 
+    background-color: #353646; 
+    border-radius: 8px; 
+    padding: 30px; 
+    margin-bottom: 30px; 
+}
+.section-title { 
+    color: #4299e1; 
+    border-bottom: 1px solid #4a4b5c; 
+    padding-bottom: 10px; 
+    margin-bottom: 20px; 
+    margin-top: 30px; 
+    font-size: 16px; 
+}
+.form-group { 
+    margin-bottom: 15px; 
+}
+.form-group label { 
+    display: block; 
+    margin-bottom: 5px; 
+    color: #cbd5e0; 
+    font-size: 13px; 
+}
+.form-group input, 
+.form-group textarea { 
+    width: 100%; 
+    padding: 10px; 
+    background-color: #282936; 
+    border: 1px solid #4a4b5c; 
+    color: #fff; 
+    border-radius: 5px; 
+    box-sizing: border-box; 
+    outline: none; 
+}
+.form-group input:focus, 
+.form-group textarea:focus { 
+    border-color: #4299e1; 
+}
+
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
+
+/* Baris Dinamis Pasal 2 */
+.dynamic-row { 
+    background-color: #282936; 
+    padding: 15px; 
+    border-radius: 5px; 
+    margin-bottom: 10px; 
+    border: 1px dashed #4a4b5c; 
+    position: relative; 
+}
+.btn-add { 
+    background-color: #22c55e; 
+    color: white; 
+    padding: 8px 15px; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    font-size: 13px; 
+    margin-top: 10px; 
+}
+.btn-remove { 
+    position: absolute; 
+    top: 10px; 
+    right: 10px; 
+    background-color: #ef4444; 
+    color: white; 
+    border: none; 
+    padding: 3px 8px; 
+    border-radius: 3px; 
+    cursor: pointer; 
+    font-size: 11px; 
+}
+
+/* Grup Tombol Bawah */
+.btn-group { 
+    margin-top: 30px; 
+    text-align: right; 
+    display: flex; 
+    justify-content: flex-end; 
+    gap: 10px; 
+}
+.btn-submit { 
+    background-color: #0ea5e9; 
+    color: white; 
+    padding: 15px 30px; 
+    border: none; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    font-size: 16px; 
+    font-weight: bold; 
+    transition: 0.3s; 
+}
+.btn-submit:hover { 
+    background-color: #0284c7; 
+}
+.btn-cancel { 
+    background-color: #4a4b5c; 
+    color: white; 
+    padding: 15px 30px; 
+    border: none; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    font-size: 16px; 
+    font-weight: bold; 
+    text-decoration: none; 
+    transition: 0.3s; 
+}
+.btn-cancel:hover { 
+    background-color: #3e3e53; 
+}

@@ -68,9 +68,15 @@
                         <td>{{ $kontrak->klien->nama_instansi ?? '-' }}</td>
                         
                         <td>
-                            <button class="btn-action btn-download" title="Unduh"></button>
-                            <button class="btn-action btn-view" title="Lihat"></button>
-                            <button class="btn-action btn-delete" title="Hapus"></button>
+                            <a href="{{ route('kontrak.download', $kontrak->id) }}" class="btn-action btn-download" style="text-decoration: none; display: inline-block;" title="Unduh">📥</a>
+                            
+                            <a href="{{ route('kontrak.view', $kontrak->id) }}" target="_blank" class="btn-action btn-view" style="text-decoration: none; display: inline-block;" title="Lihat">👁️</a>
+                            
+                            <form action="{{ route('kontrak.destroy', $kontrak->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Yakin mau hapus kontrak ini lek? File PDF juga bakal kehapus permanen loh!');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn-action btn-delete" title="Hapus">🗑️</button>
+                            </form>
                         </td>
                     </tr>
                     @empty

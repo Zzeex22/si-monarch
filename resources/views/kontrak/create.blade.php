@@ -5,41 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Buat Kontrak | Si-MONARCH</title>
     <link rel="stylesheet" href="{{ asset('css/kontrak.css') }}">
-    <style>
-  
-        .form-container { background-color: #353646; border-radius: 8px; padding: 30px; margin-bottom: 30px; }
-        .section-title { color: #4299e1; border-bottom: 1px solid #4a4b5c; padding-bottom: 10px; margin-bottom: 20px; margin-top: 30px; font-size: 16px; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; color: #cbd5e0; font-size: 13px; }
-        .form-group input, .form-group textarea { width: 100%; padding: 10px; background-color: #282936; border: 1px solid #4a4b5c; color: #fff; border-radius: 5px; box-sizing: border-box; outline: none; }
-        .form-group input:focus, .form-group textarea:focus { border-color: #4299e1; }
-        
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
-        
-
-        .dynamic-row { background-color: #282936; padding: 15px; border-radius: 5px; margin-bottom: 10px; border: 1px dashed #4a4b5c; position: relative; }
-        .btn-add { background-color: #22c55e; color: white; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer; font-size: 13px; margin-top: 10px; }
-        .btn-remove { position: absolute; top: 10px; right: 10px; background-color: #ef4444; color: white; border: none; padding: 3px 8px; border-radius: 3px; cursor: pointer; font-size: 11px; }
-        
-        .btn-submit { background-color: #0ea5e9; color: white; padding: 15px; border: none; border-radius: 8px; cursor: pointer; width: 100%; font-size: 16px; font-weight: bold; margin-top: 20px; transition: 0.3s;}
-        .btn-submit:hover { background-color: #0284c7; }
-    </style>
 </head>
 <body>
 
     <div class="sidebar">
         <h2>Si-MONARCH</h2>
         <a href="{{ url('/direktur/dashboard') }}">Dashboard</a>
-        <a href="{{ url('/direktur/proyek') }}">Proyek</a>
-        <a href="{{ url('/direktur/dokumen') }}">Dokumen</a>
-        <a href="{{ url('/direktur/kontrak') }}" class="active">Kontrak</a>
+        <a href="{{ route('proyek.index') }}">Proyek</a>
+        <a href="#">Dokumen</a>
+        <a href="{{ route('kontrak.index') }}" class="active">Kontrak</a>
     </div>
 
     <div class="main-content">
         <div class="header">
-            <h2>Buat Kontrak Baru</h2>
-            <span>Mr. {{ Auth::user()->username }}</span>
+            <h2 style="display: flex; align-items: center; gap: 10px;">
+                <a href="{{ route('kontrak.index') }}" style="color: #ef4444; text-decoration: none; font-size: 24px;">↩</a> 
+                Buat Kontrak Baru <br>
+                <small style="font-size: 12px; color: #888; display: block; font-weight: normal;">Kontrak > Buat Kontrak Baru</small>
+            </h2>
+            <span>Mr. {{ Auth::user()->username ?? 'Direktur' }}</span>
         </div>
 
         <div class="form-container">
@@ -103,7 +87,10 @@
                 </div>
                 <button type="button" class="btn-add" onclick="tambahBaris()">+ Tambah Baris Pekerjaan</button>
 
-                <button type="submit" class="btn-submit">Generate & Download Kontrak (PDF)</button>
+                <div class="btn-group">
+                    <a href="{{ route('kontrak.index') }}" class="btn-cancel">Batal</a>
+                    <button type="submit" class="btn-submit">Generate & Download Kontrak (PDF)</button>
+                </div>
             </form>
         </div>
     </div>
