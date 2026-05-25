@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 21 Bulan Mei 2026 pada 14.42
+-- Waktu pembuatan: 25 Bulan Mei 2026 pada 07.22
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -60,6 +60,18 @@ CREATE TABLE `dokumen` (
   `keterangan` text DEFAULT NULL,
   `tgl_upload` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `dokumen`
+--
+
+INSERT INTO `dokumen` (`id`, `proyek_id`, `kontrak_id`, `nama_file`, `jenis_dokumen`, `keterangan`, `tgl_upload`) VALUES
+(3, NULL, 3, 'SPK_JOKI_BALAP_ANDALAN.pdf', 'Kontrak', 'Kontrak otomatis: PEKERJAAN JOKI BALAP LIAR', '2026-05-24'),
+(4, NULL, 4, 'SPK_CV_TERANG_1779615793.pdf', 'Kontrak', 'Kontrak otomatis: PEKERJAAN GELAP', '2026-05-24'),
+(5, 2, 3, 'LAPORAN_PROGRES_BALAP_LIAR_1779635247.pdf', 'Laporan Progres', 'Update progres otomatis dari lapangan', '2026-05-24'),
+(6, NULL, 5, 'SPK_CV._SUMBER_SARI_MULIA_1779637153.pdf', 'Kontrak', 'Kontrak otomatis: Removasi Camp Nou', '2026-05-24'),
+(7, 3, 5, 'LAPORAN_PROGRES_RENOVASI_STADION_1779637294.pdf', 'Laporan Progres', 'Update progres otomatis dari lapangan', '2026-05-24'),
+(9, NULL, 6, 'SPK_KSJSNS_1779647425.pdf', 'Kontrak', 'Kontrak otomatis: Itu dia', '2026-05-24');
 
 -- --------------------------------------------------------
 
@@ -122,11 +134,18 @@ CREATE TABLE `klien` (
   `id` int(11) NOT NULL,
   `nama_instansi` varchar(255) NOT NULL,
   `nama_perwakilan` varchar(255) DEFAULT NULL,
-  `jabatan` varchar(100) DEFAULT NULL,
-  `alamat` text DEFAULT NULL,
-  `no_hp` varchar(20) DEFAULT NULL,
-  `email` varchar(100) DEFAULT NULL
+  `jabatan` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `klien`
+--
+
+INSERT INTO `klien` (`id`, `nama_instansi`, `nama_perwakilan`, `jabatan`) VALUES
+(1, 'BENGKEL SAHPUTRA', 'LAMINE YAMAL', 'MANAGER'),
+(2, 'PT ORANG GELAP', 'Mr Gelap', 'MANAGER'),
+(3, 'Barcelona', 'Joan Laporta', 'Presiden Klub'),
+(4, 'Dkaka', 'sjsjsj', 'kakssnn');
 
 -- --------------------------------------------------------
 
@@ -145,6 +164,16 @@ CREATE TABLE `kontrak` (
   `nilai_pekerjaan` decimal(15,2) DEFAULT NULL,
   `status_kontrak` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `kontrak`
+--
+
+INSERT INTO `kontrak` (`id`, `klien_id`, `nomor_kontrak`, `jenis_perjanjian`, `tgl_kontrak`, `tgl_mulai`, `tgl_selesai`, `nilai_pekerjaan`, `status_kontrak`) VALUES
+(3, 1, '0030/PKS.01.03/F29050000/2026', 'Harga Satuan', '2026-05-24', '2026-05-24', '2026-05-25', 1000000.00, 'Selesai'),
+(4, 2, 'contoh : 0030/PKS.01.03/F29050000/2025', 'Harga Satuan', '2026-05-24', '2026-05-24', '2026-05-27', 4000000.00, 'Aktif'),
+(5, 3, '0030/PKS.03.05/F67050000/2026', 'Harga Satuan', '2026-05-24', '2026-05-24', '2027-05-24', 3000000000.00, 'Aktif'),
+(6, 4, '9229', 'Harga Satuan', '2026-05-24', '2026-05-25', '2026-05-26', 10000000.00, 'Aktif');
 
 -- --------------------------------------------------------
 
@@ -202,6 +231,15 @@ CREATE TABLE `proyek` (
   `catatan` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data untuk tabel `proyek`
+--
+
+INSERT INTO `proyek` (`id`, `kontrak_id`, `nama_proyek`, `kategori_proyek`, `deskripsi_proyek`, `lokasi_proyek`, `klien`, `pic_klien`, `tgl_mulai`, `deadline`, `anggaran`, `status`, `progres`, `catatan`) VALUES
+(1, NULL, 'Balap Liar', NULL, NULL, NULL, 'Lamine Yamal', NULL, NULL, NULL, 2000000.00, NULL, 0, NULL),
+(2, 3, 'Balap Liar', 'Jasa Joki', 'Jasa Joki Balap Liar', 'Kesawan', 'BENGKEL SAHPUTRA', 'LAMINE YAMAL', '2026-05-24', '2026-05-25', 1000000.00, 'Selesai', 100, NULL),
+(3, 5, 'Renovasi Stadion', 'Renovasi', 'renovasi stadion utama klub FC Barcelona Visca Barca Visca catalunya', 'Barcelona, Spain', 'Barcelona', 'Joan Laporta', '2026-05-24', '2027-05-24', 3000000000.00, 'Pelaksanaan', 21, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -222,7 +260,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('nQ5WMkvCl9tLkgOyFNVgqfUrHCUNfCkkX3JjI3PB', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Code/1.121.0 Chrome/142.0.7444.265 Electron/39.8.8 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiWDJlSWxMSVVISEw1bEVRS0xlQjhiT0E2eWJ1a3ViRzhtM0lMVTRXdyI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1779367309);
+('5MU7Wknx8yXpvle8mFBiS86b0KqeNY44z04C1fnM', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiRnRuNGt1ejFZQTVTc0lXVUE1czJ3aWEzRnBYTlR1SFFkTENHc0U0ZCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6NDY6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9rb21pc2FyaXMva29udHJhay92aWV3LzYiO3M6NToicm91dGUiO3M6MjI6ImtvbWlzYXJpcy5rb250cmFrLnZpZXciO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToyO30=', 1779686150);
 
 -- --------------------------------------------------------
 
@@ -236,6 +274,14 @@ CREATE TABLE `users` (
   `password` varchar(255) NOT NULL,
   `role` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `password`, `role`) VALUES
+(1, 'direktur', '$2y$12$At8nhcUe89vq.jaIRKK1VuK0EfbFCMGIY3GLGLJTV8ursr/sfSM2u', 'Direktur'),
+(2, 'komisaris', '$2y$12$D9xEwLdSy4bxz9M1yx4iUO6SVfF7PCO65HV/rTcYGzMgGgZvS2A4u', 'Komisaris');
 
 --
 -- Indexes for dumped tables
@@ -337,7 +383,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT untuk tabel `dokumen`
 --
 ALTER TABLE `dokumen`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT untuk tabel `failed_jobs`
@@ -355,13 +401,13 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT untuk tabel `klien`
 --
 ALTER TABLE `klien`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `kontrak`
 --
 ALTER TABLE `kontrak`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `migrations`
@@ -373,13 +419,13 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT untuk tabel `proyek`
 --
 ALTER TABLE `proyek`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
