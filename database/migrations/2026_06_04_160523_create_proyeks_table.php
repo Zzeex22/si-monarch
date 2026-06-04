@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('proyeks', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('kontrak_id')->constrained('kontraks')->onDelete('cascade'); // <-- TAMBAH INI LEK
             $table->string('nama_proyek');
             $table->string('nama_klien');
-            $table->integer('progres')->default(0); // Buat nyatet persenan (0-100)
+            $table->integer('progres')->default(0);
+            $table->string('laporan_pdf')->nullable();
             $table->date('tanggal_mulai')->nullable();
             $table->date('tanggal_selesai')->nullable();
             $table->timestamps();

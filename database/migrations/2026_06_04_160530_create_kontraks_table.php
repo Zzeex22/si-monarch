@@ -13,10 +13,14 @@ return new class extends Migration
     {
         Schema::create('kontraks', function (Blueprint $table) {
             $table->id();
-            $table->string('judul_kontrak');
-            $table->string('pihak_ketiga'); // Nama perusahaan/klien
-            $table->bigInteger('nilai_kontrak'); // Pakai bigInteger biar muat angka miliaran
-            $table->date('tanggal_sepakat');
+            $table->string('nomor_kontrak')->nullable();
+            $table->string('judul_kontrak')->nullable();
+            $table->string('nama_klien')->nullable();
+            $table->bigInteger('nilai_kontrak')->nullable();
+            $table->date('tgl_mulai')->nullable();
+            $table->date('tgl_selesai')->nullable();
+            $table->string('status_kontrak')->default('Aktif');
+            $table->string('file_kontrak')->nullable();
             $table->timestamps();
         });
     }

@@ -9,13 +9,30 @@
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
                     </a>
                 </div>
+                @if(Auth::user()->role == 'admin')
 
-                <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+
+               <!-- Navigation Links -->
+            <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <!-- Ini Menu Dashboard Bawaan -->
+                <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                    {{ __('Dashboard') }}
+                </x-nav-link>
+
+                <!-- INI TAMBAHAN KITA LEK (CUMA ADMIN YANG BISA LIHAT) -->
+                @if(Auth::user()->role == 'admin')
+                    <x-nav-link :href="route('kontrak.index')" :active="request()->routeIs('kontrak.*')">
+                        {{ __('Manajemen Kontrak') }}
                     </x-nav-link>
-                </div>
+
+                    <x-nav-link :href="route('proyek.index')" :active="request()->routeIs('proyek.*')">
+                        {{ __('Proyek') }}
+                    </x-nav-link>
+
+                    <x-nav-link :href="route('dokumen.index')" :active="request()->routeIs('dokumen.*')">
+                        {{ __('Brankas Dokumen') }}
+                    </x-nav-link>
+                @endif 
             </div>
 
             <!-- Settings Dropdown -->
