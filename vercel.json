@@ -1,0 +1,28 @@
+{
+    "version": 2,
+    "framework": "laravel",
+    "builds": [
+        {
+            "src": "public/index.php",
+            "use": "vercel-php@8.2"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/build/(.*)",
+            "dest": "public/build/$1"
+        },
+        {
+            "src": "/css/(.*)",
+            "dest": "public/css/$1"
+        },
+        {
+            "src": "/icons/(.*)",
+            "dest": "public/icons/$1"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "public/index.php"
+        }
+    ]
+}
