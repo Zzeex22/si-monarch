@@ -1,4 +1,12 @@
 <x-guest-layout>
+    
+    <!-- Custom Header Si-MONARCH -->
+    <div class="text-center mb-8">
+        <div class="w-16 h-16 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center text-white font-black text-3xl shadow-lg mx-auto mb-4">S</div>
+        <h2 class="text-2xl font-extrabold text-gray-900 dark:text-white">Si-MONARCH</h2>
+        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Silakan masuk ke akun Anda</p>
+    </div>
+
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
@@ -39,9 +47,9 @@
                 </a>
             @endif
 
-            <x-primary-button class="ms-3">
+            <button type="submit" style="background-color: #2563eb; color: white;" class="ms-3 inline-flex items-center px-4 py-2 border border-transparent rounded-md font-semibold text-xs uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150 shadow-sm">
                 {{ __('Log in') }}
-            </x-primary-button>
+            </button>
         </div>
     </form>
 </x-guest-layout>

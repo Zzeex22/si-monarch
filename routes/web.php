@@ -5,14 +5,31 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\DocumentController;
+use App\Models\Contract;
+use App\Models\Project;
+use App\Models\Document;
+use App\Models\Report;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    // Menghitung semua total untuk ditampilkan di Dashboard
+    $totalKontrak = Contract::count();
+    $kontrakAktif = Contract::where('status_kontrak', 'Aktif')->count();
+    
+    $totalProyek = Project::count();
+    $proyekSelesai = Project::where('persentase', 100)->count();
+    
+    $totalDokumen = Document::count();
+    $totalLaporan = Report::count();
+
+    return view('dashboard', compact(
+        'totalKontrak', 'kontrakAktif', 'totalProyek', 'proyekSelesai', 'totalDokumen', 'totalLaporan'
+    ));
 })->middleware(['auth', 'verified'])->name('dashboard');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
