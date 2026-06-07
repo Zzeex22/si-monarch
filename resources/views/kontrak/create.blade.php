@@ -181,12 +181,121 @@
     </div>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // --- 1. LOGIKA TANGGAL EXCLUDE SABTU & MINGGU ---
+            const inputDurasi = document.querySelector('input[name="waktu_hari"]');
+            const inputTglMulai = document.querySelector('input[name="tgl_mulai"]');
+            const inputTglSelesai = document.querySelector('input[name="tgl_selesai"]');
+
+            function hitungTanggal() {
+                let durasi = parseInt(inputDurasi.value);
+                
+                // Jika durasi diisi tapi tanggal mulai kosong, otomatis set ke hari ini
+                if (durasi > 0 && !inputTglMulai.value) {
+                    let today = new Date();
+                    let yyyy = today.getFullYear();
+                    let mm = String(today.getMonth() + 1).padStart(2, '0');
+                    let dd = String(today.getDate()).padStart(2, '0');
+                    inputTglMulai.value = `${yyyy}-${mm}-${dd}`;
+                }
+
+                // Kalkulasi hari kerja untuk Tanggal Selesai
+                if (durasi > 0 && inputTglMulai.value) {
+                    let startDate = new Date(inputTglMulai.value);
+                    let daysToAdd = durasi - 1; // Kurangi 1 karena hari H (hari pertama) dihitung
+                    let currentDate = new Date(startDate);
+
+                    // Looping nambah hari selama 'daysToAdd' masih ada
+                    while (daysToAdd > 0) {
+                        currentDate.setDate(currentDate.getDate() + 1);
+                        // Cek: 0 itu Minggu, 6 itu Sabtu. Jika bukan weekend, kurangi sisa hari
+                        if (currentDate.getDay() !== 0 && currentDate.getDay() !== 6) {
+                            daysToAdd--;
+                        }
+                    }
+
+                    // Pencegahan jika hasil akhirnya ternyata jatuh di hari libur (misal durasi 1 hari tapi start di hari Sabtu)
+                    if (currentDate.getDay() === 6) currentDate.setDate(currentDate.getDate() + 2); // Loncat ke Senin
+                    if (currentDate.getDay() === 0) currentDate.setDate(currentDate.getDate() + 1); // Loncat ke Senin
+
+                    // Format balik ke YYYY-MM-DD
+                    let yyyySelesai = currentDate.getFullYear();
+                    let mmSelesai = String(currentDate.getMonth() + 1).padStart(2, '0');
+                    let ddSelesai = String(currentDate.getDate()).padStart(2, '0');
+                    inputTglSelesai.value = `${yyyySelesai}-${mmSelesai}-${ddSelesai}`;
+                } else {
+                    inputTglSelesai.value = '';
+                }
+            }
+
+            // Jalankan fungsi saat kolom Durasi atau Tanggal Mulai diisi/diubah
+            inputDurasi.addEventListener('input', hitungTanggal);
+            inputTglMulai.addEventListener('change', hitungTanggal);
+
+
+            // --- 2. LOGIKA TERBILANG (ANGKA KE HURUF) ---
+            const inputAngka = document.querySelector('input[name="nilai_angka"]');
+            const inputTerbilang = document.querySelector('input[name="nilai_terbilang"]');
+
+            function terbilang(angka) {
+                angka = Math.abs(parseInt(angka));
+                if (isNaN(angka) || angka === 0) return "";
+                
+                let huruf = ["", "Satu", "Dua", "Tiga", "Empat", "Lima", "Enam", "Tujuh", "Delapan", "Sembilan", "Sepuluh", "Sebelas"];
+                let hasil = "";
+                
+                if (angka < 12) {
+                    hasil = " " + huruf[angka];
+                } else if (angka < 20) {
+                    hasil = terbilang(angka - 10) + " Belas";
+                } else if (angka < 100) {
+                    hasil = terbilang(Math.floor(angka / 10)) + " Puluh" + terbilang(angka % 10);
+                } else if (angka < 200) {
+                    hasil = " Seratus" + terbilang(angka - 100);
+                } else if (angka < 1000) {
+                    hasil = terbilang(Math.floor(angka / 100)) + " Ratus" + terbilang(angka % 100);
+                } else if (angka < 2000) {
+                    hasil = " Seribu" + terbilang(angka - 1000);
+                } else if (angka < 1000000) {
+                    hasil = terbilang(Math.floor(angka / 1000)) + " Ribu" + terbilang(angka % 1000);
+                } else if (angka < 1000000000) {
+                    hasil = terbilang(Math.floor(angka / 1000000)) + " Juta" + terbilang(angka % 1000000);
+                } else if (angka < 1000000000000) {
+                    hasil = terbilang(Math.floor(angka / 1000000000)) + " Milyar" + terbilang(angka % 1000000000);
+                }
+                
+                return hasil;
+            }
+
+            inputAngka.addEventListener('input', function() {
+                let angka = this.value;
+                if (angka) {
+                    let teks = terbilang(angka).trim();
+                    // Ubah huruf pertama tiap kata jadi kapital (Title Case)
+                    let titleCaseText = teks.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
+                    
+                    // Isi otomatis ke form Nilai Terbilang + kata Rupiah
+                    inputTerbilang.value = titleCaseText + " Rupiah";
+                    
+                    // Biar formnya sedikit read-only biar Admin ngga gak sengaja hapus
+                    inputTerbilang.setAttribute('readonly', true);
+                    inputTerbilang.classList.add('bg-gray-100', 'cursor-not-allowed', 'dark:bg-gray-900');
+                } else {
+                    inputTerbilang.value = '';
+                    inputTerbilang.removeAttribute('readonly');
+                    inputTerbilang.classList.remove('bg-gray-100', 'cursor-not-allowed', 'dark:bg-gray-900');
+                }
+            });
+        });
+
+        // --- 3. FUNGSI TAMBAH BARIS PEKERJAAN ---
         function tambahBaris() {
             const container = document.getElementById('uraian-container');
             const row = document.createElement('div');
             row.className = 'dynamic-row relative bg-gray-50 dark:bg-gray-900 p-4 rounded-lg border border-gray-200 dark:border-gray-700 mb-4 mt-4';
             row.innerHTML = `
-                <button type="button" onclick="this.parentElement.remove()" class="absolute top-2 right-2 text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 text-sm font-bold bg-red-100 dark:bg-red-900/30 px-2 py-1 rounded">X Hapus</button>
+                <button type="button" onclick="this.parentElement.remove()" class="absolute top-2 right-2 text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 text-sm font-bold bg-red-100 dark:bg-red-900/30 px-2 py-1 rounded transition">X Hapus</button>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 mt-4">
                     <div>
                         <label class="block text-sm font-medium mb-1">Barang/Uraian Kerja</label>
