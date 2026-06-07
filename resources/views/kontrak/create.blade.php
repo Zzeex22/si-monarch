@@ -1,97 +1,182 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buat Kontrak | Si-MONARCH</title>
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-</head>
-<body>
-
-    <div class="sidebar">
-        <h2>Si-MONARCH</h2>
-        <a href="{{ url('/direktur/dashboard') }}">Dashboard</a>
-        <a href="{{ route('proyek.index') }}">Proyek</a>
-        <a href="{{ route('dokumen.index') }}">Dokumen</a>
-        <a href="{{ route('kontrak.index') }}" class="active">Kontrak</a>
-    </div>
-
-    <div class="main-content">
-        <div class="header">
-            <h2 style="display: flex; align-items: center; gap: 10px;">
-                <a href="{{ route('kontrak.index') }}" style="color: #ef4444; text-decoration: none; font-size: 24px;">↩</a> 
-                Buat Kontrak Baru <br>
-                <small style="font-size: 12px; color: #888; display: block; font-weight: normal;">Kontrak > Buat Kontrak Baru</small>
-            </h2>
-            <span>Mr. {{ Auth::user()->username ?? 'Direktur' }}</span>
+<x-app-layout>
+    <x-slot name="header">
+        <div class="flex items-center gap-3">
+            <a href="{{ route('kontrak.index') }}" class="text-red-500 hover:text-red-700 transition" title="Kembali">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z" /></svg>
+            </a>
+            <div>
+                <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                    Buat Kontrak Baru
+                </h2>
+                <span class="text-xs text-gray-500 dark:text-gray-400">Kontrak > Buat Kontrak Baru</span>
+            </div>
         </div>
+    </x-slot>
 
-        <div class="form-container">
-            <form action="{{ route('kontrak.generate') }}" method="POST">
-                @csrf
-                
-                <h3 class="section-title">A. Informasi Surat Kontrak</h3>
-                <div class="grid-2">
-                    <div class="form-group"><label>Nomor SPK Pihak 1</label><input type="text" name="no_pihak1" required></div>
-                    <div class="form-group"><label>Nomor SPK Pihak 2</label><input type="text" name="no_pihak2" required></div>
-                </div>
-                <div class="form-group"><label>Nama / Judul Pekerjaan</label><input type="text" name="nama_pekerjaan" required></div>
-
-                <h3 class="section-title">B. Data Pihak Pertama (Pemberi Kerja)</h3>
-                <div class="form-group"><label>Nama Perusahaan / Instansi</label><input type="text" name="pt_pihak1" required></div>
-                <div class="grid-2">
-                    <div class="form-group"><label>Nama Pejabat</label><input type="text" name="nama_pejabat1" required></div>
-                    <div class="form-group"><label>Jabatan Pejabat</label><input type="text" name="jabatan1" required></div>
-                </div>
-
-                <h3 class="section-title">C. Data Pihak Kedua (Pelaksana / Vendor)</h3>
-                <div class="form-group"><label>Nama CV / PT Pelaksana</label><input type="text" name="cv_pihak2" required></div>
-                <div class="grid-2">
-                    <div class="form-group"><label>Nama Pejabat</label><input type="text" name="nama_pejabat2" required></div>
-                    <div class="form-group"><label>Jabatan</label><input type="text" name="jabatan2" required></div>
-                </div>
-                <div class="form-group"><label>Dasar Hukum / Akta Notaris</label><input type="text" name="akta_notaris" required></div>
-                <div class="form-group"><label>Alamat Lengkap Perusahaan</label><textarea name="alamat_pihak2" rows="2" required></textarea></div>
-
-                <h3 class="section-title">D. Informasi Pembayaran & Pajak</h3>
-                <div class="grid-3">
-                    <div class="form-group"><label>Nama Bank</label><input type="text" name="nama_bank" required></div>
-                    <div class="form-group"><label>Nomor Rekening</label><input type="number" name="no_rek" required></div>
-                    <div class="form-group"><label>NPWP Perusahaan</label><input type="text" name="npwp" required></div>
-                </div>
-
-                <h3 class="section-title">E. Detail Pelaksanaan & Nilai</h3>
-                <div class="form-group"><label>Lokasi Pekerjaan</label><input type="text" name="lokasi_kerja" required></div>
-                <div class="grid-3">
-                    <div class="form-group"><label>Durasi (Hari)</label><input type="number" name="waktu_hari" required></div>
-                    <div class="form-group"><label>Tanggal Mulai</label><input type="date" name="tgl_mulai" required></div>
-                    <div class="form-group"><label>Tanggal Selesai</label><input type="date" name="tgl_selesai" required></div>
-                </div>
-                <div class="grid-2">
-                    <div class="form-group"><label>Nilai Kontrak (Angka)</label><input type="number" name="nilai_angka" required></div>
-                    <div class="form-group"><label>Nilai Kontrak (Huruf / Terbilang)</label><input type="text" name="nilai_terbilang" required></div>
-                </div>
-
-                <h3 class="section-title">F. Detail Barang / Uraian Kerja</h3>
-                <div id="uraian-container">
-                    <div class="dynamic-row">
-                        <div class="grid-2">
-                            <div class="form-group"><label>Barang/Uraian Kerja</label><textarea name="uraian[]" rows="2" required></textarea></div>
-                            <div class="form-group"><label>Spesifikasi</label><textarea name="spek[]" rows="2" required></textarea></div>
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg border border-gray-200 dark:border-gray-700">
+                <div class="p-6 text-gray-900 dark:text-gray-100">
+                    
+                    <form action="{{ route('kontrak.generate') }}" method="POST">
+                        @csrf
+                        
+                        <div class="mb-8">
+                            <h3 class="text-lg font-bold border-b border-gray-200 dark:border-gray-700 pb-2 mb-4 text-blue-600 dark:text-blue-400">A. Informasi Surat Kontrak</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-sm font-medium mb-1">Nomor SPK Pihak 1</label>
+                                    <input type="text" name="no_pihak1" required class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-500 focus:ring-blue-500 shadow-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-1">Nomor SPK Pihak 2</label>
+                                    <input type="text" name="no_pihak2" required class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-500 focus:ring-blue-500 shadow-sm">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Nama / Judul Pekerjaan</label>
+                                <input type="text" name="nama_pekerjaan" required class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-500 focus:ring-blue-500 shadow-sm">
+                            </div>
                         </div>
-                        <div class="grid-2">
-                            <div class="form-group"><label>Kebutuhan (Qty)</label><input type="text" name="qty[]" required></div>
-                            <div class="form-group"><label>Satuan</label><input type="text" name="satuan[]" required></div>
-                        </div>
-                    </div>
-                </div>
-                <button type="button" class="btn-add" onclick="tambahBaris()">+ Tambah Baris Pekerjaan</button>
 
-                <div class="btn-group">
-                    <a href="{{ route('kontrak.index') }}" class="btn-cancel">Batal</a>
-                    <button type="submit" class="btn-submit">Generate & Download Kontrak (PDF)</button>
+                        <div class="mb-8">
+                            <h3 class="text-lg font-bold border-b border-gray-200 dark:border-gray-700 pb-2 mb-4 text-blue-600 dark:text-blue-400">B. Data Pihak Pertama (Pemberi Kerja)</h3>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium mb-1">Nama Perusahaan / Instansi</label>
+                                <input type="text" name="pt_pihak1" required class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-500 focus:ring-blue-500 shadow-sm">
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium mb-1">Nama Pejabat</label>
+                                    <input type="text" name="nama_pejabat1" required class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-500 focus:ring-blue-500 shadow-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-1">Jabatan Pejabat</label>
+                                    <input type="text" name="jabatan1" required class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-500 focus:ring-blue-500 shadow-sm">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-8">
+                            <h3 class="text-lg font-bold border-b border-gray-200 dark:border-gray-700 pb-2 mb-4 text-blue-600 dark:text-blue-400">C. Data Pihak Kedua (Pelaksana / Vendor)</h3>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium mb-1">Nama CV / PT Pelaksana</label>
+                                <input type="text" name="cv_pihak2" required class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-500 focus:ring-blue-500 shadow-sm">
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-sm font-medium mb-1">Nama Pejabat</label>
+                                    <input type="text" name="nama_pejabat2" required class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-500 focus:ring-blue-500 shadow-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-1">Jabatan</label>
+                                    <input type="text" name="jabatan2" required class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-500 focus:ring-blue-500 shadow-sm">
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium mb-1">Dasar Hukum / Akta Notaris</label>
+                                <input type="text" name="akta_notaris" required class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-500 focus:ring-blue-500 shadow-sm">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Alamat Lengkap Perusahaan</label>
+                                <textarea name="alamat_pihak2" rows="2" required class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-500 focus:ring-blue-500 shadow-sm"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="mb-8">
+                            <h3 class="text-lg font-bold border-b border-gray-200 dark:border-gray-700 pb-2 mb-4 text-blue-600 dark:text-blue-400">D. Informasi Pembayaran & Pajak</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium mb-1">Nama Bank</label>
+                                    <input type="text" name="nama_bank" required class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-500 focus:ring-blue-500 shadow-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-1">Nomor Rekening</label>
+                                    <input type="number" name="no_rek" required class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-500 focus:ring-blue-500 shadow-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-1">NPWP Perusahaan</label>
+                                    <input type="text" name="npwp" required class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-500 focus:ring-blue-500 shadow-sm">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-8">
+                            <h3 class="text-lg font-bold border-b border-gray-200 dark:border-gray-700 pb-2 mb-4 text-blue-600 dark:text-blue-400">E. Detail Pelaksanaan & Nilai</h3>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium mb-1">Lokasi Pekerjaan</label>
+                                <input type="text" name="lokasi_kerja" required class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-500 focus:ring-blue-500 shadow-sm">
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-sm font-medium mb-1">Durasi (Hari)</label>
+                                    <input type="number" name="waktu_hari" required class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-500 focus:ring-blue-500 shadow-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-1">Tanggal Mulai</label>
+                                    <input type="date" name="tgl_mulai" required class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-500 focus:ring-blue-500 shadow-sm [color-scheme:light] dark:[color-scheme:dark]">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-1">Tanggal Selesai</label>
+                                    <input type="date" name="tgl_selesai" required class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-500 focus:ring-blue-500 shadow-sm [color-scheme:light] dark:[color-scheme:dark]">
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium mb-1">Nilai Kontrak (Angka)</label>
+                                    <input type="number" name="nilai_angka" required class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-500 focus:ring-blue-500 shadow-sm" placeholder="Contoh: 15000000">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-1">Nilai Kontrak (Huruf / Terbilang)</label>
+                                    <input type="text" name="nilai_terbilang" required class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-500 focus:ring-blue-500 shadow-sm" placeholder="Contoh: Lima Belas Juta Rupiah">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-8">
+                            <h3 class="text-lg font-bold border-b border-gray-200 dark:border-gray-700 pb-2 mb-4 text-blue-600 dark:text-blue-400">F. Detail Barang / Uraian Kerja</h3>
+                            <div id="uraian-container">
+                                <div class="dynamic-row bg-gray-50 dark:bg-gray-900 p-4 rounded-lg border border-gray-200 dark:border-gray-700 mb-4">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                        <div>
+                                            <label class="block text-sm font-medium mb-1">Barang/Uraian Kerja</label>
+                                            <textarea name="uraian[]" rows="2" required class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-500 focus:ring-blue-500 shadow-sm"></textarea>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium mb-1">Spesifikasi</label>
+                                            <textarea name="spek[]" rows="2" required class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-500 focus:ring-blue-500 shadow-sm"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-sm font-medium mb-1">Kebutuhan (Qty)</label>
+                                            <input type="number" name="qty[]" required class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-500 focus:ring-blue-500 shadow-sm">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium mb-1">Satuan</label>
+                                            <input type="text" name="satuan[]" required class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-500 focus:ring-blue-500 shadow-sm" placeholder="Contoh: Unit / Set / Lot">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <button type="button" onclick="tambahBaris()" class="mt-2 inline-flex items-center px-4 py-2 bg-gray-200 dark:bg-gray-700 border border-transparent rounded-md font-semibold text-xs text-gray-800 dark:text-gray-200 uppercase tracking-widest hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none transition">
+                                + Tambah Baris Pekerjaan
+                            </button>
+                        </div>
+
+                        <div class="flex items-center justify-end pt-4 border-t border-gray-200 dark:border-gray-700">
+                            <a href="{{ route('kontrak.index') }}" class="inline-flex items-center px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md font-semibold text-xs text-gray-700 dark:text-gray-300 uppercase tracking-widest shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition mr-3">
+                                Batal
+                            </a>
+                            <button type="submit" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition">
+                                Generate & Download Kontrak (PDF)
+                            </button>
+                        </div>
+                    </form>
+
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 
@@ -99,20 +184,31 @@
         function tambahBaris() {
             const container = document.getElementById('uraian-container');
             const row = document.createElement('div');
-            row.className = 'dynamic-row';
+            row.className = 'dynamic-row relative bg-gray-50 dark:bg-gray-900 p-4 rounded-lg border border-gray-200 dark:border-gray-700 mb-4 mt-4';
             row.innerHTML = `
-                <button type="button" onclick="this.parentElement.remove()" class="btn-remove">X Hapus</button>
-                <div class="grid-2">
-                    <div class="form-group"><label>Barang/Uraian Kerja</label><textarea name="uraian[]" rows="2" required></textarea></div>
-                    <div class="form-group"><label>Spesifikasi</label><textarea name="spek[]" rows="2" required></textarea></div>
+                <button type="button" onclick="this.parentElement.remove()" class="absolute top-2 right-2 text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 text-sm font-bold bg-red-100 dark:bg-red-900/30 px-2 py-1 rounded">X Hapus</button>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 mt-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Barang/Uraian Kerja</label>
+                        <textarea name="uraian[]" rows="2" required class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-500 focus:ring-blue-500 shadow-sm"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Spesifikasi</label>
+                        <textarea name="spek[]" rows="2" required class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-500 focus:ring-blue-500 shadow-sm"></textarea>
+                    </div>
                 </div>
-                <div class="grid-2">
-                    <div class="form-group"><label>Kebutuhan (Qty)</label><input type="text" name="qty[]" required></div>
-                    <div class="form-group"><label>Satuan</label><input type="text" name="satuan[]" required></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Kebutuhan (Qty)</label>
+                        <input type="number" name="qty[]" required class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-500 focus:ring-blue-500 shadow-sm">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Satuan</label>
+                        <input type="text" name="satuan[]" required class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-500 focus:ring-blue-500 shadow-sm">
+                    </div>
                 </div>
             `;
             container.appendChild(row);
         }
     </script>
-</body>
-</html>
+</x-app-layout>
