@@ -16,11 +16,13 @@ class DocumentController extends Controller
         return view('dokumen.index', compact('documents'));
     }
 
-    // FUNGSI KHUSUS ADMIN: Upload Dokumen Tambahan (Lainnya)
+    // FUNGSI KHUSUS ADMIN: Upload Dokumen Tambahan
     public function store(Request $request)
     {
+        // 1. Tambahkan validasi untuk kategori
         $request->validate([
             'nama_dokumen' => 'required|string|max:255',
+            'kategori' => 'required|in:kontrak,laporan,lainnya',
             'file_dokumen' => 'required|file|max:10240', // max 10MB
         ]);
 
@@ -28,17 +30,18 @@ class DocumentController extends Controller
             $file = $request->file('file_dokumen');
             $fileName = 'Dokumen_' . Str::slug($request->nama_dokumen) . '_' . time() . '.' . $file->getClientOriginalExtension();
             
-            // Simpan ke storage/app/public/dokumen_lainnya
-            $filePath = $file->storeAs('dokumen_lainnya', $fileName, 'public');
+            // Simpan ke folder yang rapi
+            $filePath = $file->storeAs('dokumen_manual', $fileName, 'public');
 
+            // 2. Simpan kategori sesuai inputan dari form
             Document::create([
                 'nama_dokumen' => $request->nama_dokumen,
-                'kategori' => 'lainnya',
+                'kategori' => $request->kategori, 
                 'file_path' => $filePath,
             ]);
         }
 
-        return redirect()->route('dokumen.index')->with('success', 'Dokumen tambahan berhasil diunggah!');
+        return redirect()->route('dokumen.index')->with('success', 'Dokumen berhasil diunggah dengan kategori yang dipilih!');
     }
 
     public function download($id)

@@ -23,17 +23,29 @@
 
             @if(Auth::user()->role === 'admin')
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg border border-gray-200 dark:border-gray-700 p-6">
-                <h3 class="text-lg font-bold text-gray-900 dark:text-gray-100 mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">Upload Dokumen Lainnya (Manual)</h3>
+                <h3 class="text-lg font-bold text-gray-900 dark:text-gray-100 mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">Upload Dokumen Tambahan</h3>
                 <form action="{{ route('dokumen.store') }}" method="POST" enctype="multipart/form-data" class="flex flex-col md:flex-row gap-4 items-end">
                     @csrf
+                    
                     <div class="flex-1 w-full">
                         <label class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Nama Dokumen</label>
-                        <input type="text" name="nama_dokumen" required class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-500 focus:ring-blue-500 shadow-sm" placeholder="Contoh: Berita Acara Rapat, KTP Klien, dll">
+                        <input type="text" name="nama_dokumen" required class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-500 focus:ring-blue-500 shadow-sm" placeholder="Contoh: Berita Acara Rapat">
                     </div>
+                    
+                    <div class="w-full md:w-48">
+                        <label class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Kategori</label>
+                        <select name="kategori" required class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-500 focus:ring-blue-500 shadow-sm text-sm">
+                            <option value="lainnya">Lainnya</option>
+                            <option value="kontrak">Kontrak</option>
+                            <option value="laporan">Laporan</option>
+                        </select>
+                    </div>
+
                     <div class="flex-1 w-full">
                         <label class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Pilih File (PDF/Gambar/Doc)</label>
                         <input type="file" name="file_dokumen" required class="w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 dark:file:bg-blue-900/30 dark:file:text-blue-400">
                     </div>
+                    
                     <div>
                         <button type="submit" style="background-color: #2563eb; color: white;" class="px-6 py-2 rounded-md font-semibold text-sm uppercase tracking-widest hover:opacity-90 transition shadow-sm h-[42px]">
                             Upload
@@ -48,7 +60,7 @@
                     <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
                         <div>
                             <h3 class="text-lg font-bold text-gray-900 dark:text-gray-100">Arsip Dokumen</h3>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">Semua kontrak dan laporan proyek otomatis masuk ke sini.</p>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">Semua kontrak, laporan proyek, dan dokumen manual ada di sini.</p>
                         </div>
                         
                         <div class="flex items-center gap-2 w-full md:w-auto">

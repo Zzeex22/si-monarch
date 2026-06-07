@@ -53,7 +53,7 @@ class ContractController extends Controller
         // 3. Simpan ke database (Tabel Contracts)
         $contract = Contract::create([
             'nomor_kontrak' => $request->no_pihak1,
-            'nama_klien' => $request->cv_pihak1,
+            'nama_klien' => $request->pt_pihak1,
             'nama_pekerjaan' => $request->nama_pekerjaan,
             'nilai_pekerjaan' => $request->nilai_angka,
             'tgl_mulai' => $request->tgl_mulai,
