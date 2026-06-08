@@ -63,7 +63,7 @@
                                 </tr>
                             </thead>
                             <tbody id="tableBodyKontrak" class="bg-white divide-y divide-gray-200">
-                                @forelse($kontrakList as $kontrak)
+                                @forelse($contracts as $kontrak)
                                 <tr class="data-row hover:bg-gray-50 transition duration-150">
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-blue-600">{{ $kontrak->nomor_kontrak }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $kontrak->nama_klien }}</td>

@@ -124,11 +124,11 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
                                     <label class="block text-sm font-medium mb-1">Nilai Kontrak (Angka)</label>
-                                    <input type="number" name="nilai_angka" required class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-500 focus:ring-blue-500 shadow-sm" placeholder="Contoh: 15000000">
+                                    <input type="text" name="nilai_angka" required class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-500 focus:ring-blue-500 shadow-sm font-bold text-blue-600 dark:text-blue-400" placeholder="Contoh: 15000000">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium mb-1">Nilai Kontrak (Huruf / Terbilang)</label>
-                                    <input type="text" name="nilai_terbilang" required class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-500 focus:ring-blue-500 shadow-sm" placeholder="Contoh: Lima Belas Juta Rupiah">
+                                    <input type="text" name="nilai_terbilang" readonly required class="w-full rounded-md border-gray-200 dark:border-gray-600 bg-gray-100 dark:bg-gray-900 text-gray-600 dark:text-gray-300 cursor-not-allowed shadow-sm focus:outline-none" placeholder="Otomatis terisi kalimat terbilang...">
                                 </div>
                             </div>
                         </div>
@@ -191,7 +191,6 @@
             function hitungTanggal() {
                 let durasi = parseInt(inputDurasi.value);
                 
-                // Jika durasi diisi tapi tanggal mulai kosong, otomatis set ke hari ini
                 if (durasi > 0 && !inputTglMulai.value) {
                     let today = new Date();
                     let yyyy = today.getFullYear();
@@ -200,26 +199,21 @@
                     inputTglMulai.value = `${yyyy}-${mm}-${dd}`;
                 }
 
-                // Kalkulasi hari kerja untuk Tanggal Selesai
                 if (durasi > 0 && inputTglMulai.value) {
                     let startDate = new Date(inputTglMulai.value);
-                    let daysToAdd = durasi - 1; // Kurangi 1 karena hari H (hari pertama) dihitung
+                    let daysToAdd = durasi - 1; 
                     let currentDate = new Date(startDate);
 
-                    // Looping nambah hari selama 'daysToAdd' masih ada
                     while (daysToAdd > 0) {
                         currentDate.setDate(currentDate.getDate() + 1);
-                        // Cek: 0 itu Minggu, 6 itu Sabtu. Jika bukan weekend, kurangi sisa hari
                         if (currentDate.getDay() !== 0 && currentDate.getDay() !== 6) {
                             daysToAdd--;
                         }
                     }
 
-                    // Pencegahan jika hasil akhirnya ternyata jatuh di hari libur (misal durasi 1 hari tapi start di hari Sabtu)
-                    if (currentDate.getDay() === 6) currentDate.setDate(currentDate.getDate() + 2); // Loncat ke Senin
-                    if (currentDate.getDay() === 0) currentDate.setDate(currentDate.getDate() + 1); // Loncat ke Senin
+                    if (currentDate.getDay() === 6) currentDate.setDate(currentDate.getDate() + 2); 
+                    if (currentDate.getDay() === 0) currentDate.setDate(currentDate.getDate() + 1); 
 
-                    // Format balik ke YYYY-MM-DD
                     let yyyySelesai = currentDate.getFullYear();
                     let mmSelesai = String(currentDate.getMonth() + 1).padStart(2, '0');
                     let ddSelesai = String(currentDate.getDate()).padStart(2, '0');
@@ -229,67 +223,89 @@
                 }
             }
 
-            // Jalankan fungsi saat kolom Durasi atau Tanggal Mulai diisi/diubah
-            inputDurasi.addEventListener('input', hitungTanggal);
-            inputTglMulai.addEventListener('change', hitungTanggal);
-
-
-            // --- 2. LOGIKA TERBILANG (ANGKA KE HURUF) ---
-            const inputAngka = document.querySelector('input[name="nilai_angka"]');
-            const inputTerbilang = document.querySelector('input[name="nilai_terbilang"]');
-
-            function terbilang(angka) {
-                angka = Math.abs(parseInt(angka));
-                if (isNaN(angka) || angka === 0) return "";
-                
-                let huruf = ["", "Satu", "Dua", "Tiga", "Empat", "Lima", "Enam", "Tujuh", "Delapan", "Sembilan", "Sepuluh", "Sebelas"];
-                let hasil = "";
-                
-                if (angka < 12) {
-                    hasil = " " + huruf[angka];
-                } else if (angka < 20) {
-                    hasil = terbilang(angka - 10) + " Belas";
-                } else if (angka < 100) {
-                    hasil = terbilang(Math.floor(angka / 10)) + " Puluh" + terbilang(angka % 10);
-                } else if (angka < 200) {
-                    hasil = " Seratus" + terbilang(angka - 100);
-                } else if (angka < 1000) {
-                    hasil = terbilang(Math.floor(angka / 100)) + " Ratus" + terbilang(angka % 100);
-                } else if (angka < 2000) {
-                    hasil = " Seribu" + terbilang(angka - 1000);
-                } else if (angka < 1000000) {
-                    hasil = terbilang(Math.floor(angka / 1000)) + " Ribu" + terbilang(angka % 1000);
-                } else if (angka < 1000000000) {
-                    hasil = terbilang(Math.floor(angka / 1000000)) + " Juta" + terbilang(angka % 1000000);
-                } else if (angka < 1000000000000) {
-                    hasil = terbilang(Math.floor(angka / 1000000000)) + " Milyar" + terbilang(angka % 1000000000);
-                }
-                
-                return hasil;
+            if (inputDurasi && inputTglMulai) {
+                inputDurasi.addEventListener('input', hitungTanggal);
+                inputTglMulai.addEventListener('change', hitungTanggal);
             }
 
-            inputAngka.addEventListener('input', function() {
-                let angka = this.value;
-                if (angka) {
-                    let teks = terbilang(angka).trim();
-                    // Ubah huruf pertama tiap kata jadi kapital (Title Case)
-                    let titleCaseText = teks.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
+
+            // --- 2. LOGIKA FORMAT RUPIAH & TERBILANG ---
+            const inputAngka = document.querySelector('input[name="nilai_angka"]');
+            // Menyesuaikan target dengan nama kolom di form milikmu
+            const inputTerbilang = document.querySelector('input[name="nilai_terbilang"]');
+
+            if (inputAngka) {
+                inputAngka.addEventListener('input', function(e) {
+                    // 1. Kasih format titik otomatis
+                    this.value = formatRupiah(this.value);
                     
-                    // Isi otomatis ke form Nilai Terbilang + kata Rupiah
-                    inputTerbilang.value = titleCaseText + " Rupiah";
-                    
-                    // Biar formnya sedikit read-only biar Admin ngga gak sengaja hapus
-                    inputTerbilang.setAttribute('readonly', true);
-                    inputTerbilang.classList.add('bg-gray-100', 'cursor-not-allowed', 'dark:bg-gray-900');
-                } else {
-                    inputTerbilang.value = '';
-                    inputTerbilang.removeAttribute('readonly');
-                    inputTerbilang.classList.remove('bg-gray-100', 'cursor-not-allowed', 'dark:bg-gray-900');
+                    // 2. Terjemahkan ke huruf otomatis
+                    if (inputTerbilang) {
+                        // Bersihkan dulu titiknya biar bisa dihitung mesin
+                        var angkaBersih = this.value.replace(/\./g, '');
+                        
+                        if (angkaBersih === '' || parseInt(angkaBersih) === 0 || isNaN(angkaBersih)) {
+                            inputTerbilang.value = '';
+                        } else {
+                            let teks = terbilang(parseInt(angkaBersih)).trim();
+                            // Ubah huruf pertama tiap kata jadi kapital (Title Case)
+                            let titleCaseText = teks.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
+                            
+                            // Isi form terbilang + " Rupiah"
+                            inputTerbilang.value = titleCaseText + ' Rupiah';
+                        }
+                    }
+                });
+            }
+
+            // Fungsi Pembantu: Kasih Titik Ribuan
+            function formatRupiah(angka) {
+                var number_string = angka.replace(/[^,\d]/g, '').toString(),
+                    split         = number_string.split(','),
+                    sisa          = split[0].length % 3,
+                    rupiah        = split[0].substr(0, sisa),
+                    ribuan        = split[0].substr(sisa).match(/\d{3}/gi);
+
+                if (ribuan) {
+                    var separator = sisa ? '.' : '';
+                    rupiah += separator + ribuan.join('.');
                 }
-            });
+                return split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+            }
+
+            // Fungsi Pembantu: Mesin Terbilang
+            function terbilang(angka) {
+                var bilangan = ['', 'Satu', 'Dua', 'Tiga', 'Empat', 'Lima', 'Enam', 'Tujuh', 'Delapan', 'Sembilan', 'Sepuluh', 'Sebelas'];
+                var result = '';
+                angka = Math.abs(angka);
+
+                if (angka < 12) {
+                    result = bilangan[angka];
+                } else if (angka < 20) {
+                    result = terbilang(angka - 10) + ' Belas';
+                } else if (angka < 100) {
+                    result = terbilang(Math.floor(angka / 10)) + ' Puluh ' + terbilang(angka % 10);
+                } else if (angka < 200) {
+                    result = 'Seratus ' + terbilang(angka - 100);
+                } else if (angka < 1000) {
+                    result = terbilang(Math.floor(angka / 100)) + ' Ratus ' + terbilang(angka % 100);
+                } else if (angka < 2000) {
+                    result = 'Seribu ' + terbilang(angka - 1000);
+                } else if (angka < 1000000) {
+                    result = terbilang(Math.floor(angka / 1000)) + ' Ribu ' + terbilang(angka % 1000);
+                } else if (angka < 1000000000) {
+                    result = terbilang(Math.floor(angka / 1000000)) + ' Juta ' + terbilang(angka % 1000000);
+                } else if (angka < 1000000000000) {
+                    result = terbilang(Math.floor(angka / 1000000000)) + ' Miliar ' + terbilang(angka % 1000000000);
+                } else if (angka < 1000000000000000) {
+                    result = terbilang(Math.floor(angka / 1000000000000)) + ' Triliun ' + terbilang(angka % 1000000000000);
+                }
+
+                return result.replace(/\s+/g, ' ').trim();
+            }
         });
 
-        // --- 3. FUNGSI TAMBAH BARIS PEKERJAAN ---
+        // --- 3. FUNGSI TAMBAH BARIS PEKERJAAN (Diluar DOMContentLoaded) ---
         function tambahBaris() {
             const container = document.getElementById('uraian-container');
             const row = document.createElement('div');

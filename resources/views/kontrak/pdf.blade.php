@@ -27,6 +27,34 @@
     </style>
 </head>
 <body>
+    <?php
+        // 1. OTOMATIS TANGGAL HARI INI
+        \Carbon\Carbon::setLocale('id');
+        $tgl_dibuat_indo = \Carbon\Carbon::now()->translatedFormat('l, d F Y');
+
+        // 2. OTOMATIS TERBILANG UNTUK DURASI HARI (Contoh: 30 jadi Tiga Puluh)
+        if (!function_exists('terbilang_hari')) {
+            function terbilang_hari($angka) {
+                $angka = abs((int)$angka);
+                $baca = array("", "Satu", "Dua", "Tiga", "Empat", "Lima", "Enam", "Tujuh", "Delapan", "Sembilan", "Sepuluh", "Sebelas");
+                $terbilang = "";
+                if ($angka < 12) {
+                    $terbilang = " " . $baca[$angka];
+                } else if ($angka < 20) {
+                    $terbilang = terbilang_hari($angka - 10) . " Belas";
+                } else if ($angka < 100) {
+                    $terbilang = terbilang_hari($angka / 10) . " Puluh" . terbilang_hari($angka % 10);
+                } else if ($angka < 200) {
+                    $terbilang = " Seratus" . terbilang_hari($angka - 100);
+                } else if ($angka < 1000) {
+                    $terbilang = terbilang_hari($angka / 100) . " Ratus" . terbilang_hari($angka % 100);
+                }
+                return trim($terbilang);
+            }
+        }
+        $waktu_hari_huruf = isset($waktu_hari) ? terbilang_hari($waktu_hari) : '';
+    ?>
+
     <footer>
         <table width="100%" style="border-collapse: collapse;">
             <tr>
@@ -38,7 +66,22 @@
     </footer>
 
     <div class="center" style="margin-top: 50px;">
-        <p>LOGO PERUSAHAAN</p>
+        <?php
+            $path = public_path('img/logo-ssm.jpg');
+            if (file_exists($path)) {
+                $type = pathinfo($path, PATHINFO_EXTENSION);
+                $data = file_get_contents($path);
+                $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+            } else {
+                $base64 = ''; // Jaga-jaga kalau logo terhapus biar nggak error 500
+            }
+        ?>
+        
+        @if($base64)
+        <div style="text-align: center; margin-bottom: 30px;">
+            <img src="{{ $base64 }}" alt="Logo Sumber Sari Mulia" style="width: 250px; height: auto;">
+        </div>
+        @endif
     </div>
     
     <div class="cover-title">
@@ -107,7 +150,7 @@
 
     <div class="pasal-title">PASAL 3<br>WAKTU PELAKSANAAN, LOKASI PEKERJAAN, JANGKA WAKTU<br>DAN JENIS PERJANJIAN</div>
             <ol>
-                <li>Waktu Pelaksanaan Pekerjaan adalah selama <strong>{{ $waktu_hari }} ({{ $waktu_hari_huruf }})</strong> hari kalender, yang terhitung sejak tanggal <strong>{{ date('d F Y', strtotime($tgl_mulai)) }}</strong>, dan akan berakhir pada tanggal <strong>{{ date('d F Y', strtotime($tgl_selesai)) }}</strong>.</li>
+                <li>Waktu Pelaksanaan Pekerjaan adalah selama <strong>{{ $waktu_hari }} ({{ $waktu_hari_huruf }})</strong> hari kalender, yang terhitung sejak tanggal <strong>{{ \Carbon\Carbon::parse($tgl_mulai)->translatedFormat('d F Y') }}</strong>, dan akan berakhir pada tanggal <strong>{{ \Carbon\Carbon::parse($tgl_selesai)->translatedFormat('d F Y') }}</strong>.</li>
                 <li>Lokasi Pelaksanaan Pekerjaan adalah di {{ $lokasi_kerja }}, atau di lokasi lain yang disepakati oleh PARA PIHAK sebelum pelaksanaan pekerjaan dimulai.</li>
                 <li>Jenis perjanjian ini menggunakan jenis perjanjian yaitu Harga Satuan (Unit Price).</li>
                 <li>Perjanjian ini akan berakhir apabila seluruh hak dan kewajiban PARA PIHAK yang tercantum dalam kontrak ini telah terpenuhi sesuai dengan ketentuan yang berlaku dalam kontrak ini.</li>
@@ -260,7 +303,7 @@
 
             <div class="pasal-title">PASAL 10<br>NILAI PEKERJAAN DAN PENGGUNAAN PRODUK DALAM NEGERI (TKDN)</div>
             <ol>
-                <li>PIHAK PERTAMA dan PIHAK KEDUA sepakat bahwa Nilai Perjanjian untuk seluruh pekerjaan yang tercakup dalam Perjanjian ini adalah sebesar <strong>Rp {{ number_format($nilai_angka, 0, ',', '.') }} ({{ $nilai_terbilang }})</strong>, yang sudah termasuk pajak-pajak yang berlaku, dengan perincian sebagaimana diatur dalam Daftar Kuantitas dan Harga / Bill of Quantity (BOQ) yang merupakan Lampiran Perjanjian ini.</li>
+                <li>PIHAK PERTAMA dan PIHAK KEDUA sepakat bahwa Nilai Perjanjian untuk seluruh pekerjaan yang tercakup dalam Perjanjian ini adalah sebesar <strong>Rp {{ number_format($nilaiAsli, 0, ',', '.') }} ({{ $nilai_terbilang }})</strong>, yang sudah termasuk pajak-pajak yang berlaku, dengan perincian sebagaimana diatur dalam Daftar Kuantitas dan Harga / Bill of Quantity (BOQ) yang merupakan Lampiran Perjanjian ini.</li>
                 <li>Nilai pekerjaan ini adalah hasil kesepakatan antara PIHAK PERTAMA dan PIHAK KEDUA, dan sudah mencakup semua biaya yang diperlukan, termasuk risiko, overhead, pajak, serta pembayaran wajib lainnya yang sesuai dengan ketentuan yang berlaku.</li>
                 <li>Apabila pekerjaan konstruksi maka pemotongan PPh kepada PIHAK KEDUA akan dilakukan sesuai dengan Peraturan Pemerintah Republik Indonesia No. 9 Tahun 2022 tentang Perubahan Kedua atas Peraturan Pemerintah Nomor 51 Tahun 2008 tentang Pajak Penghasilan atas Penghasilan dari Usaha Jasa Konstruksi.</li>
                 <li>Kenaikan Harga dan Risiko
