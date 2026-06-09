@@ -10,11 +10,11 @@ use App\Models\Project;
 use App\Models\Document;
 use App\Models\Report;
 
-Route::get('/', function () {
+    Route::get('/', function () {
     return view('welcome');
-});
+    });
 
-Route::get('/dashboard', function () {
+    Route::get('/dashboard', function () {
     // Menghitung semua total untuk ditampilkan di Dashboard
     $totalKontrak = Contract::count();
     $kontrakAktif = Contract::where('status_kontrak', 'Aktif')->count();
@@ -28,16 +28,16 @@ Route::get('/dashboard', function () {
     return view('dashboard', compact(
         'totalKontrak', 'kontrakAktif', 'totalProyek', 'proyekSelesai', 'totalDokumen', 'totalLaporan'
     ));
-})->middleware(['auth', 'verified'])->name('dashboard');
+    })->middleware(['auth', 'verified'])->name('dashboard');
 
 
-Route::middleware('auth')->group(function () {
+    Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+    });
 
-// Route Manajemen Kontrak
+    // Route Manajemen Kontrak
     Route::get('/kontrak', [ContractController::class, 'index'])->name('kontrak.index');
     Route::get('/kontrak/create', [ContractController::class, 'create'])->name('kontrak.create');
     Route::post('/kontrak/generate', [ContractController::class, 'generate'])->name('kontrak.generate');
@@ -57,7 +57,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/proyek/{id}/progress', [ProjectController::class, 'updateProgress'])->name('proyek.progress');
     Route::post('/report/{id}/status', [ProjectController::class, 'updateReportStatus'])->name('report.status');
 
-// Route Pusat Dokumen
+    // Route Pusat Dokumen
     Route::get('/dokumen', [DocumentController::class, 'index'])->name('dokumen.index');
     Route::post('/dokumen', [DocumentController::class, 'store'])->name('dokumen.store');
     Route::get('/dokumen/download/{id}', [DocumentController::class, 'download'])->name('dokumen.download');
