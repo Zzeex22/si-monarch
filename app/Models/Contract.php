@@ -9,6 +9,6 @@ class Contract extends Model
 {
     use HasFactory;
 
-    // Ini kuncinya lek, artinya "izinkan semua kolom diisi"
+   
     protected $guarded = []; 
 }

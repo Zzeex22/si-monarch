@@ -11,19 +11,16 @@ class Project extends Model
 
     protected $guarded = [];
 
-    // Relasi ke tabel Contract
     public function contract()
     {
         return $this->belongsTo(Contract::class);
     }
 
-    // Tambahkan Relasi ke tabel Report
     public function reports()
     {
         return $this->hasMany(Report::class);
     }
 
-    // Fungsi KHUSUS DIREKTUR: Update Status Laporan (Setujui / Revisi)
     public function updateReportStatus(Request $request, $id)
     {
         $report = Report::findOrFail($id);
