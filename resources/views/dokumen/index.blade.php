@@ -65,10 +65,10 @@
                         
                         <div class="flex items-center gap-2 w-full md:w-auto">
                             <select id="filterKategori" class="rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 text-gray-700 dark:text-gray-300 focus:border-blue-500 shadow-sm text-sm">
-                                <option value="">Semua Kategori</option>
-                                <option value="kontrak">Hanya Kontrak</option>
-                                <option value="laporan">Hanya Laporan</option>
-                                <option value="lainnya">Lainnya (Manual)</option>
+                                <option value="">Kategori</option>
+                                <option value="kontrak">Kontrak</option>
+                                <option value="laporan">Laporan</option>
+                                <option value="lainnya">Lainnya</option>
                             </select>
                             <input type="text" id="searchDokumen" placeholder="Cari nama dokumen..." class="w-full md:w-64 rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-500 shadow-sm text-sm">
                         </div>
@@ -128,7 +128,7 @@
                                 @empty
                                 <tr>
                                     <td colspan="4" class="px-6 py-8 whitespace-nowrap text-center text-sm text-gray-500 dark:text-gray-400">
-                                        Belum ada dokumen apapun yang tersimpan lek.
+                                        Belum ada dokumen apapun yang tersimpan.
                                     </td>
                                 </tr>
                                 @endforelse

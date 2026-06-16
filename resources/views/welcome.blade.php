@@ -57,8 +57,97 @@
                 </div>
             </main>
             
+                                    <!-- Profil Perusahaan Section -->
+           <!-- Profil Perusahaan Section -->
+<section id="profil-perusahaan" class="mt-32 py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Judul Section -->
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">CV. Sumber Sari Mulia</h2>
+            <div class="mt-2 w-24 h-1 bg-[#C04000] mx-auto rounded"></div>
+            <p class="mt-4 text-lg text-gray-600 font-semibold tracking-wide">General Contractor and Supplier</p>
+            <p class="mt-1 text-md text-[#C04000] italic font-medium">"Do The Right Thing Right"</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+            <!-- Informasi Perusahaan & Kontak -->
+            <div>
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">Profil Perusahaan</h3>
+                <p class="text-gray-600 mb-6 text-justify leading-relaxed">
+                    <strong>CV. Sumber Sari Mulia</strong> adalah perusahaan yang bergerak di bidang layanan <em>General Contractor and Supplier</em>. Kami berdedikasi penuh untuk memberikan hasil pekerjaan yang berkualitas, detail, dan terstruktur sesuai dengan target perencanaan, dengan selalu berpegang pada prinsip kerja kami: <em>Do The Right Thing Right</em>.
+                </p>
+                
+                <!-- Card Informasi Kontak -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-[#C04000]">
+                    <h4 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
+                        <svg class="w-5 h-5 text-[#C04000] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                        Informasi Kontak
+                    </h4>
+                    <ul class="space-y-3 text-sm text-gray-600">
+                        <li class="flex items-start">
+                            <span class="font-bold text-gray-800 w-20 flex-shrink-0">Alamat</span>
+                            <span>: Jalan Balai Desa gang Wakaf No. 75 Medan (20126)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="font-bold text-gray-800 w-20 flex-shrink-0">Telepon</span>
+                            <span>: 085265595973</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="font-bold text-gray-800 w-20 flex-shrink-0">Email</span>
+                            <span>: sumbersarimulia@gmail.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Lingkup Kerja (Scope of Work) -->
+            <div class="bg-white p-8 rounded-xl shadow-lg border-t-4 border-[#C04000]">
+                <h3 class="text-xl font-bold text-[#C04000] mb-6 flex items-center">
+                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                    Lingkup Kerja
+                </h3>
+                
+                <div class="space-y-5">
+                    <div>
+                        <h4 class="font-bold text-gray-800 text-sm bg-gray-100 p-2 rounded inline-block mb-2">GA & Finance Dept</h4>
+                        <ul class="list-disc list-inside text-sm text-gray-600 space-y-1 ml-1">
+                            <li>Audit Inventori Asset</li>
+                            <li>Membuat Laporan Keuangan</li>
+                            <li>Pelaporan Pajak</li>
+                            <li>Menyiapkan Kebutuhan Operasional Kantor</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="font-bold text-gray-800 text-sm bg-gray-100 p-2 rounded inline-block mb-2">Staff Ahli - Sipil</h4>
+                        <ul class="list-disc list-inside text-sm text-gray-600 space-y-1 ml-1">
+                            <li>Membuat Rencana Kerja</li>
+                            <li>Koordinasi Dengan SPV Teknis</li>
+                            <li>Analisa Pekerjaan Lapangan Berikut Progress</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="font-bold text-gray-800 text-sm bg-gray-100 p-2 rounded inline-block mb-2">SPV Bidang</h4>
+                        <ul class="list-disc list-inside text-sm text-gray-600 space-y-1 ml-1">
+                            <li>Memastikan Persiapan Pekerjaan Secara Detail</li>
+                            <li>Mentoring dan Monitoring Pekerjaan</li>
+                            <li>Memastikan Progres Sesuai Time Schedul Pekerjaan</li>
+                            <li>Membuat Laporan Progress</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
             <footer class="mt-32 text-center text-sm text-gray-500 dark:text-gray-500 pb-8 font-medium">
-                &copy; {{ date('Y') }} Tim 3 All Store. Hak Cipta Dilindungi.
+                &copy; {{ date('Y') }} Tim Digistra Hexa. Hak Cipta Dilindungi.
             </footer>
         </div>
     </div>

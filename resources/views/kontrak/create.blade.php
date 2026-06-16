@@ -88,15 +88,22 @@
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                                 <div>
                                     <label class="block text-sm font-medium mb-1">Nama Bank</label>
-                                    <input type="text" name="nama_bank" required class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-500 focus:ring-blue-500 shadow-sm">
+                                    <select id="nama_bank" name="nama_bank" required class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-500 focus:ring-blue-500 shadow-sm">
+                                        <option value="" disabled selected>-- Pilih Bank --</option>
+                                        <option value="Bank Mandiri" data-rek="123 4567 890 123">Bank Mandiri</option>
+                                        <option value="Bank BCA" data-rek="0987 654 321">Bank BCA</option>
+                                        <option value="Bank BRI" data-rek="1122 3344 5566 778">Bank BRI</option>
+                                        <option value="Bank BNI" data-rek="9988 7766 55">Bank BNI</option>
+                                        <option value="Bank Sumut" data-rek="1000 2000 3000">Bank Sumut</option>
+                                    </select>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium mb-1">Nomor Rekening</label>
-                                    <input type="number" name="no_rek" required class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-500 focus:ring-blue-500 shadow-sm">
+                                    <input type="text" id="no_rek" name="no_rek" required readonly placeholder="Pilih bank dulu..." class="w-full rounded-md border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-900 cursor-not-allowed text-gray-600 dark:text-gray-400 focus:border-blue-500 focus:ring-blue-500 shadow-sm">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium mb-1">NPWP Perusahaan</label>
-                                    <input type="text" name="npwp" required class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-500 focus:ring-blue-500 shadow-sm">
+                                    <input type="text" name="npwp" value="0000000000000001" required readonly class="w-full rounded-md border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-900 cursor-not-allowed text-gray-600 dark:text-gray-400 focus:border-blue-500 focus:ring-blue-500 shadow-sm">
                                 </div>
                             </div>
                         </div>
@@ -154,7 +161,7 @@
                                         </div>
                                         <div>
                                             <label class="block text-sm font-medium mb-1">Satuan</label>
-                                            <input type="text" name="satuan[]" required class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-500 focus:ring-blue-500 shadow-sm" placeholder="Contoh: Unit / Set / Lot">
+                                            <input type="text" name="satuan[]" required class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-blue-500 focus:ring-blue-500 shadow-sm">
                                         </div>
                                     </div>
                                 </div>
@@ -231,34 +238,26 @@
 
             // --- 2. LOGIKA FORMAT RUPIAH & TERBILANG ---
             const inputAngka = document.querySelector('input[name="nilai_angka"]');
-            // Menyesuaikan target dengan nama kolom di form milikmu
             const inputTerbilang = document.querySelector('input[name="nilai_terbilang"]');
 
             if (inputAngka) {
                 inputAngka.addEventListener('input', function(e) {
-                    // 1. Kasih format titik otomatis
                     this.value = formatRupiah(this.value);
                     
-                    // 2. Terjemahkan ke huruf otomatis
                     if (inputTerbilang) {
-                        // Bersihkan dulu titiknya biar bisa dihitung mesin
                         var angkaBersih = this.value.replace(/\./g, '');
                         
                         if (angkaBersih === '' || parseInt(angkaBersih) === 0 || isNaN(angkaBersih)) {
                             inputTerbilang.value = '';
                         } else {
                             let teks = terbilang(parseInt(angkaBersih)).trim();
-                            // Ubah huruf pertama tiap kata jadi kapital (Title Case)
                             let titleCaseText = teks.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
-                            
-                            // Isi form terbilang + " Rupiah"
                             inputTerbilang.value = titleCaseText + ' Rupiah';
                         }
                     }
                 });
             }
 
-            // Fungsi Pembantu: Kasih Titik Ribuan
             function formatRupiah(angka) {
                 var number_string = angka.replace(/[^,\d]/g, '').toString(),
                     split         = number_string.split(','),
@@ -273,7 +272,6 @@
                 return split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
             }
 
-            // Fungsi Pembantu: Mesin Terbilang
             function terbilang(angka) {
                 var bilangan = ['', 'Satu', 'Dua', 'Tiga', 'Empat', 'Lima', 'Enam', 'Tujuh', 'Delapan', 'Sembilan', 'Sepuluh', 'Sebelas'];
                 var result = '';
@@ -303,9 +301,27 @@
 
                 return result.replace(/\s+/g, ' ').trim();
             }
+
+            // --- 3. LOGIKA BANK OTOMATIS ---
+            const bankSelect = document.getElementById('nama_bank');
+            const noRekInput = document.getElementById('no_rek');
+
+            if(bankSelect && noRekInput) {
+                bankSelect.addEventListener('change', function() {
+                    const selectedOption = this.options[this.selectedIndex];
+                    const rekeningOtomatis = selectedOption.getAttribute('data-rek');
+                    
+                    if(rekeningOtomatis) {
+                        noRekInput.value = rekeningOtomatis;
+                    } else {
+                        noRekInput.value = '';
+                    }
+                });
+            }
+
         });
 
-        // --- 3. FUNGSI TAMBAH BARIS PEKERJAAN (Diluar DOMContentLoaded) ---
+        // --- 4. FUNGSI TAMBAH BARIS PEKERJAAN (Diluar DOMContentLoaded) ---
         function tambahBaris() {
             const container = document.getElementById('uraian-container');
             const row = document.createElement('div');

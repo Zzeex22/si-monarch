@@ -34,7 +34,6 @@
                 </div>
             @endif
 
-            <!-- 1. Header Detail Proyek -->
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg border border-gray-200 dark:border-gray-700 p-6">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div>
@@ -53,7 +52,6 @@
                     </div>
                 </div>
 
-                <!-- Big Progress Bar -->
                 <div class="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
                     <div class="flex justify-between items-center mb-2">
                         <h3 class="text-lg font-bold text-gray-900 dark:text-gray-100">Status Progres Saat Ini</h3>
@@ -68,10 +66,8 @@
                 </div>
             </div>
 
-            <!-- 2. Section Bawah (Daftar Laporan & Form Aksi) -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 
-                <!-- Kolom Kiri: Riwayat Laporan -->
                 <div class="lg:col-span-2 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg border border-gray-200 dark:border-gray-700 p-6">
                     <h3 class="text-lg font-bold text-gray-900 dark:text-gray-100 mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">Riwayat Laporan Progres</h3>
                     
@@ -83,7 +79,6 @@
                                 <div>
                                     <div class="flex items-center gap-2 mb-1">
                                         <h4 class="font-bold text-gray-900 dark:text-gray-100">{{ $report->judul_laporan }}</h4>
-                                        <!-- Badge Status -->
                                         @if($report->status == 'pending')
                                             <span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded border border-yellow-200">Menunggu Review</span>
                                         @elseif($report->status == 'disetujui')
@@ -101,7 +96,6 @@
                                 </a>
                             </div>
 
-                            <!-- Pesan Revisi untuk Admin (Hanya muncul jika statusnya revisi) -->
                             @if($report->status == 'revisi' && $report->pesan_revisi)
                                 <div class="mt-3 p-3 bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500 text-red-700 dark:text-red-400 text-sm">
                                     <strong>Catatan Revisi dari Direktur:</strong><br>
@@ -109,10 +103,8 @@
                                 </div>
                             @endif
 
-                            <!-- TAMPILAN AKSI DIREKTUR -->
                             @if(Auth::user()->role === 'direktur' && $report->status == 'pending')
                                 <div class="mt-4 pt-3 border-t border-gray-200 dark:border-gray-700 flex flex-wrap gap-2">
-                                    <!-- Tombol Setujui -->
                                     <form action="{{ route('report.status', $report->id) }}" method="POST" class="inline">
                                         @csrf
                                         <input type="hidden" name="status" value="disetujui">
@@ -121,7 +113,6 @@
                                         </button>
                                     </form>
                                     
-                                    <!-- Form Minta Revisi -->
                                     <form action="{{ route('report.status', $report->id) }}" method="POST" class="flex-1 flex gap-2">
                                         @csrf
                                         <input type="hidden" name="status" value="revisi">
@@ -140,11 +131,9 @@
                     </div>
                 </div>
 
-                <!-- Kolom Kanan: Form Aksi Sesuai Role -->
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg border border-gray-200 dark:border-gray-700 p-6 self-start">
                     
                     @if(Auth::user()->role === 'admin')
-                        <!-- TAMPILAN ADMIN: Form Upload Laporan -->
                         <h3 class="text-lg font-bold text-gray-900 dark:text-gray-100 mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">Upload Laporan Baru</h3>
                         <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Laporan akan otomatis tersimpan ke halaman Dokumen.</p>
                         
@@ -168,17 +157,21 @@
                         </form>
 
                     @elseif(Auth::user()->role === 'direktur')
-                        <!-- TAMPILAN DIREKTUR: Form Update Progress -->
                         <h3 class="text-lg font-bold text-gray-900 dark:text-gray-100 mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">Evaluasi Direktur</h3>
                         <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Periksa laporan di samping, lalu perbarui persentase proyek di bawah ini.</p>
                         
                         <form action="{{ route('proyek.progress', $project->id) }}" method="POST">
                             @csrf
                             <div class="mb-6">
-                                <label class="block text-sm font-medium mb-2">Ubah Persentase (%)</label>
-                                <div class="flex items-center gap-3">
-                                    <input type="range" name="persentase" min="0" max="100" value="{{ $project->persentase }}" oninput="document.getElementById('persentase-output').textContent = this.value + '%'" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700">
-                                    <span id="persentase-output" class="font-bold text-lg w-12 text-center text-blue-600 dark:text-blue-400">{{ $project->persentase }}%</span>
+                                <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-3">Ubah Persentase (%)</label>
+                                
+                                <div class="flex items-center gap-4 mb-2">
+                                    <input type="range" id="progress_slider" min="0" max="100" value="{{ $project->persentase }}" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700">
+                                    
+                                    <div class="flex items-center bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg px-2 py-1 focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200 transition">
+                                        <input type="number" name="persentase" id="progress_input" min="0" max="100" value="{{ $project->persentase }}" class="w-16 text-center bg-transparent border-none p-1 focus:ring-0 text-blue-600 dark:text-blue-400 font-extrabold text-lg" required>
+                                        <span class="text-gray-500 font-bold pr-1">%</span>
+                                    </div>
                                 </div>
                             </div>
                             
@@ -195,4 +188,47 @@
 
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const slider = document.getElementById('progress_slider');
+            const input = document.getElementById('progress_input');
+
+            if (slider && input) {
+                // 1. Saat slider digeser
+                slider.addEventListener('input', function() {
+                    input.value = this.value;
+                });
+
+                // 2. Saat angka diketik (menggunakan 'input' agar responsif saat ngetik)
+                input.addEventListener('input', function() {
+                    let val = parseInt(this.value);
+                    
+                    // Kalau input dihapus jadi kosong, anggap 0 di slider biar ngga error
+                    if (isNaN(val)) {
+                        slider.value = 0;
+                        return;
+                    }
+
+                    // Batasi min 0, max 100 di slider (biar visualnya pas)
+                    if (val < 0) val = 0;
+                    if (val > 100) val = 100;
+                    
+                    slider.value = val;
+                });
+
+                // 3. Saat kolom input kehilangan fokus (klik di luar), otomatis benerin angkanya kalau ngaco
+                input.addEventListener('change', function() {
+                    let val = parseInt(this.value);
+                    if (isNaN(val) || val < 0) {
+                        this.value = 0;
+                        slider.value = 0;
+                    } else if (val > 100) {
+                        this.value = 100;
+                        slider.value = 100;
+                    }
+                });
+            }
+        });
+    </script>
 </x-app-layout>
